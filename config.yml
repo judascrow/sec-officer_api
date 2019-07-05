@@ -1,0 +1,10 @@
+database:
+  driver: "mysql"
+  dbname: "sec_officer"
+  username: "root"
+  password: "root"
+  host: "localhost"
+  port: "3306"
+
+server:
+  port: "8081"
