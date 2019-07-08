@@ -7,4 +7,4 @@ database:
   port: "3306"
 
 server:
-  port: "8081"
+  port: "8080"

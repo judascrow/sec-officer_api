@@ -12,6 +12,7 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"golang.org/x/crypto/bcrypt"
 )
 
 var db *gorm.DB
@@ -28,22 +29,12 @@ type User = models.User
 var identityKey = "id"
 var identityUsername = "username"
 
-func helloHandler(c *gin.Context) {
-	claims := jwt.ExtractClaims(c)
-	user, _ := c.Get(identityKey)
-	c.JSON(200, gin.H{
-		"userID":   claims["id"],
-		"username": user.(*User).Username,
-		"text":     "Hello World.",
-	})
-}
-
 func main() {
 	config := config.InitConfig()
 
 	db = include.InitDB()
 	defer db.Close()
-	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{})
+	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{})
 
 	router := gin.Default()
 	router.Use(middleware.CORS())
@@ -83,7 +74,7 @@ func main() {
 				return nil, jwt.ErrFailedAuthentication
 			}
 
-			if password == user.Password {
+			if checkHash(password, user.Password) {
 				return &User{
 					ID:        user.ID,
 					Username:  user.Username,
@@ -156,5 +147,30 @@ func main() {
 		posts.DELETE("/:id", controllers.DeletePost)
 	}
 
+	users := apiv1.Group("/users")
+	//users.Use(authMiddleware.MiddlewareFunc())
+	{
+		// users.GET("/", controllers.GetPosts)
+		users.GET("/:id", controllers.GetUser)
+		users.POST("/", controllers.CreateUser)
+		// users.PUT("/:id", controllers.UpdatePost)
+		// users.DELETE("/:id", controllers.DeletePost)
+	}
+
 	router.Run(":" + config.Server.Port)
+}
+
+func checkHash(password string, hash string) bool {
+	err := bcrypt.CompareHashAndPassword([]byte(hash), []byte(password))
+	return err == nil
+}
+
+func helloHandler(c *gin.Context) {
+	claims := jwt.ExtractClaims(c)
+	user, _ := c.Get(identityKey)
+	c.JSON(200, gin.H{
+		"userID":   claims["id"],
+		"username": user.(*User).Username,
+		"text":     "Hello World.",
+	})
 }
