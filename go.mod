@@ -11,7 +11,8 @@ require (
 	github.com/astaxie/beego v1.12.0
 	github.com/boombuler/barcode v1.0.0 // indirect
 	github.com/bradfitz/gomemcache v0.0.0-20190329173943-551aad21a668 // indirect
-	github.com/casbin/casbin v1.9.1 // indirect
+	github.com/casbin/casbin v1.9.1
+	github.com/casbin/gorm-adapter v0.0.0-20190623160500-9d922cc6a7c5
 	github.com/coreos/bbolt v1.3.3 // indirect
 	github.com/coreos/etcd v3.3.13+incompatible // indirect
 	github.com/coreos/go-semver v0.3.0 // indirect

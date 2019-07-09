@@ -6,6 +6,7 @@ import (
 	"sec-officer_api/include"
 	"sec-officer_api/models"
 
+	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
 	"golang.org/x/crypto/bcrypt"
@@ -103,7 +104,7 @@ func GetUser(c *gin.Context) {
 
 func CreateUser(c *gin.Context) {
 	db = include.GetDB()
-	//claims := jwt.ExtractClaims(c)
+	claims := jwt.ExtractClaims(c)
 
 	var user User
 
@@ -122,10 +123,12 @@ func CreateUser(c *gin.Context) {
 		hashPassword, _ := hash(user.Password)
 		user.Password = hashPassword
 
-		//user.CreatedUid = claims["id"]
+		user.CreatedUid = int(claims["id"].(float64))
 
 		if err := db.Create(&user).Error; err != nil {
-			c.JSON(404, err)
+			c.JSON(404, gin.H{
+				"message": err.Error(),
+			})
 			fmt.Println(err)
 		} else {
 			c.JSON(200, user)

@@ -10,12 +10,15 @@ import (
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
+	"github.com/casbin/casbin"
+	gormadapter "github.com/casbin/gorm-adapter"
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
 	"golang.org/x/crypto/bcrypt"
 )
 
 var db *gorm.DB
+var casbinEnforcer *casbin.Enforcer
 var err error
 
 type login struct {
@@ -28,6 +31,7 @@ type User = models.User
 
 var identityKey = "id"
 var identityUsername = "username"
+var identityRole = "role_id"
 
 func main() {
 	config := config.InitConfig()
@@ -35,6 +39,18 @@ func main() {
 	db = include.InitDB()
 	defer db.Close()
 	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{})
+
+	driver := config.Database.Driver
+	database := config.Database.Dbname
+	username := config.Database.Username
+	password := config.Database.Password
+	host := config.Database.Host
+	port := config.Database.Port
+	pg_conn_info := username + ":" + password + "@tcp(" + host + ":" + port + ")/" + database + "?charset=utf8&parseTime=True&loc=Local"
+	casbin_adapter := gormadapter.NewAdapter(driver, pg_conn_info, true)
+	e := casbin.NewEnforcer("./auth.conf", casbin_adapter)
+	casbinEnforcer = e
+	e.LoadPolicy()
 
 	router := gin.Default()
 	router.Use(middleware.CORS())
@@ -50,6 +66,7 @@ func main() {
 				return jwt.MapClaims{
 					identityKey:      v.ID,
 					identityUsername: v.Username,
+					identityRole:     v.RoleID,
 				}
 			}
 			return jwt.MapClaims{}
@@ -59,6 +76,7 @@ func main() {
 			return &User{
 				ID:       uint(claims["id"].(float64)),
 				Username: claims["username"].(string),
+				RoleID:   int(claims["role_id"].(float64)),
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
@@ -80,18 +98,19 @@ func main() {
 					Username:  user.Username,
 					FirstName: user.FirstName,
 					LastName:  user.LastName,
+					RoleID:    user.RoleID,
 				}, nil
 			}
 
 			return nil, jwt.ErrFailedAuthentication
 		},
-		// Authorizator: func(data interface{}, c *gin.Context) bool {
-		// 	if v, ok := data.(*User); ok && v.Username == "admin" {
-		// 		return true
-		// 	}
+		Authorizator: func(data interface{}, c *gin.Context) bool {
+			if v, ok := data.(*User); ok && v.Username != "" {
+				return casbinEnforcer.Enforce(v.Username, c.Request.URL.String(), c.Request.Method)
+			}
 
-		// 	return false
-		// },
+			return false
+		},
 		Unauthorized: func(c *gin.Context, code int, message string) {
 			c.JSON(code, gin.H{
 				"code":    code,
@@ -148,7 +167,7 @@ func main() {
 	}
 
 	users := apiv1.Group("/users")
-	//users.Use(authMiddleware.MiddlewareFunc())
+	users.Use(authMiddleware.MiddlewareFunc())
 	{
 		// users.GET("/", controllers.GetPosts)
 		users.GET("/:id", controllers.GetUser)
@@ -171,6 +190,6 @@ func helloHandler(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"userID":   claims["id"],
 		"username": user.(*User).Username,
-		"text":     "Hello World.",
+		"roleID":   user.(*User).RoleID,
 	})
 }
