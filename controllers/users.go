@@ -2,9 +2,9 @@ package controllers
 
 import (
 	"fmt"
-
 	"sec-officer_api/include"
 	"sec-officer_api/models"
+	"strconv"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/astaxie/beego/validation"
@@ -14,6 +14,12 @@ import (
 
 type User = models.User
 type Role = models.Role
+
+// Data is mainle generated for filtering and pagination
+type DataUser struct {
+	Total int64  `json:"total"`
+	Data  []User `json:"data"`
+}
 
 func hash(password string) (string, error) {
 	bytes, err := bcrypt.GenerateFromPassword([]byte(password), 12)
@@ -41,66 +47,66 @@ func GetUser(c *gin.Context) {
 	}
 }
 
-// func GetPosts(c *gin.Context) {
-// 	db = include.GetDB()
-// 	var posts []Post
-// 	var data Data
-// 	var count int64
+func GetUsers(c *gin.Context) {
+	db = include.GetDB()
+	var users []User
+	var data DataUser
+	var count int64
 
-// 	//Get name from query
-// 	name := c.DefaultQuery("name", "")
+	// //Get name from query
+	// name := c.DefaultQuery("name", "")
 
-// 	//Get description from query
-// 	description := c.DefaultQuery("description", "")
+	// //Get description from query
+	// description := c.DefaultQuery("description", "")
 
-// 	// Order By filtering option add
-// 	Sort := c.DefaultQuery("order", "id|desc")
-// 	SortArray := strings.Split(Sort, "|")
+	// // Order By filtering option add
+	// Sort := c.DefaultQuery("order", "id|desc")
+	// SortArray := strings.Split(Sort, "|")
 
-// 	// Define and get offset for pagination
-// 	offset := c.Query("offset")
-// 	offsetInt, err := strconv.Atoi(offset)
-// 	if err != nil {
-// 		offsetInt = 0
-// 	}
+	// Define and get offset for pagination
+	offset := c.Query("offset")
+	offsetInt, err := strconv.Atoi(offset)
+	if err != nil {
+		offsetInt = 0
+	}
 
-// 	// Define and get limit for pagination
-// 	limit := c.Query("limit")
-// 	limitInt, err := strconv.Atoi(limit)
-// 	if err != nil {
-// 		limitInt = 25
-// 	}
+	// Define and get limit for pagination
+	limit := c.Query("limit")
+	limitInt, err := strconv.Atoi(limit)
+	if err != nil {
+		limitInt = 25
+	}
 
-// 	query := db.Limit(limitInt)
-// 	query = query.Offset(offsetInt)
-// 	query = query.Order(SortArray[0] + " " + SortArray[1])
+	query := db.Set("gorm:auto_preload", true).Limit(limitInt)
+	query = query.Offset(offsetInt)
+	// query = query.Order(SortArray[0] + " " + SortArray[1])
 
-// 	// In postgres you shoud use ILIKE to make search case insensitive
-// 	if name != "" {
-// 		query = query.Where("name LIKE ?", "%"+name+"%")
-// 	}
+	// // In postgres you shoud use ILIKE to make search case insensitive
+	// if name != "" {
+	// 	query = query.Where("name LIKE ?", "%"+name+"%")
+	// }
 
-// 	if description != "" {
-// 		query = query.Where("description LIKE ?", "%"+description+"%")
-// 	}
+	// if description != "" {
+	// 	query = query.Where("description LIKE ?", "%"+description+"%")
+	// }
 
-// 	if err := query.Find(&posts).Error; err != nil {
-// 		c.AbortWithStatus(404)
-// 		fmt.Println(err)
-// 	} else {
+	if err := query.Find(&users).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
 
-// 		// We are resetting offset to 0 to return total number.
-// 		// This is a fix for Gorm offset issue
-// 		offsetInt = 0
-// 		query = query.Offset(offsetInt)
-// 		query.Table("posts").Count(&count)
+		// We are resetting offset to 0 to return total number.
+		// This is a fix for Gorm offset issue
+		offsetInt = 0
+		query = query.Offset(offsetInt)
+		query.Table("users").Count(&count)
 
-// 		data.Total = count
-// 		data.Data = posts
+		data.Total = count
+		data.Data = users
 
-// 		c.JSON(200, data)
-// 	}
-// }
+		c.JSON(200, data)
+	}
+}
 
 func CreateUser(c *gin.Context) {
 	db = include.GetDB()
@@ -139,18 +145,38 @@ func CreateUser(c *gin.Context) {
 
 }
 
-// func UpdatePost(c *gin.Context) {
-// 	db = include.GetDB()
-// 	var post Post
-// 	id := c.Params.ByName("id")
+func UpdateUser(c *gin.Context) {
+	db = include.GetDB()
+	claims := jwt.ExtractClaims(c)
 
-// 	if err := db.Where("id = ?", id).First(&post).Error; err != nil {
-// 		c.AbortWithStatus(404)
-// 		fmt.Println(err)
-// 	}
+	var user User
+	id := c.Params.ByName("id")
 
-// 	c.BindJSON(&post)
+	if err := db.Where("id = ?", id).First(&user).Error; err != nil {
+		c.JSON(404, gin.H{
+			"message": err.Error(),
+		})
+		fmt.Println(err)
+		return
+	}
 
-// 	db.Save(&post)
-// 	c.JSON(200, post)
-// }
+	password_old := user.Password
+
+	c.BindJSON(&user)
+
+	if user.Password != password_old {
+		hashPassword, _ := hash(user.Password)
+		user.Password = hashPassword
+	}
+
+	user.UpdatedUid = int(claims["id"].(float64))
+
+	if err := db.Save(&user).Error; err != nil {
+		c.JSON(404, gin.H{
+			"message": err.Error(),
+		})
+		fmt.Println(err)
+	} else {
+		c.JSON(200, user)
+	}
+}
