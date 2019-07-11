@@ -5,6 +5,7 @@ import (
 	"sec-officer_api/config"
 	"sec-officer_api/include"
 	"sec-officer_api/models"
+	"strconv"
 	"time"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
@@ -80,7 +81,7 @@ func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 			password := loginVals.Password
 
 			var user User
-			if err := db.Where("username = ?", username).First(&user).Error; err != nil {
+			if err := db.Where("username = ? AND status = 'A'", username).First(&user).Error; err != nil {
 				return nil, jwt.ErrFailedAuthentication
 			}
 
@@ -97,8 +98,9 @@ func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 			return nil, jwt.ErrFailedAuthentication
 		},
 		Authorizator: func(data interface{}, c *gin.Context) bool {
-			if v, ok := data.(*User); ok && v.Username != "" {
-				return casbinEnforcer.Enforce(v.Username, c.Request.URL.String(), c.Request.Method)
+			if v, ok := data.(*User); ok && v.Username != "" && v.RoleID != 0 {
+				v0 := strconv.Itoa(v.RoleID)
+				return casbinEnforcer.Enforce(v0, c.Request.URL.String(), c.Request.Method)
 			}
 
 			return false

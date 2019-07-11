@@ -12,8 +12,9 @@ type User struct {
 	FirstName  string     `json:"first_name" gorm:"type:varchar(255)"`
 	LastName   string     `json:"last_name" gorm:"type:varchar(255)"`
 	RoleID     int        `json:"role_id" gorm:"type:int"`
-	Role       Role       `json:"role" gorm:"foreignkey:ID;association_foreignkey:RoleID;PRELOAD:true"`
+	Role       Role       `json:"role"`
 	CourtID    int        `json:"court_id" gorm:"type:int"`
+	Status     string     `json:"status" gorm:"type:varchar(10);DEFAULT:'A'"`
 	CreatedUid int        `json:"created_uid" gorm:"type:int"`
 	CreatedAt  time.Time  `json:"created_at"`
 	UpdatedUid int        `json:"updated_uid" gorm:"type:int"`

@@ -5,6 +5,7 @@ import (
 	"sec-officer_api/include"
 	"sec-officer_api/models"
 	"strconv"
+	"strings"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/astaxie/beego/validation"
@@ -53,15 +54,18 @@ func GetUsers(c *gin.Context) {
 	var data DataUser
 	var count int64
 
-	// //Get name from query
-	// name := c.DefaultQuery("name", "")
+	//Get court from query
+	court_id := c.DefaultQuery("court_id", "")
 
-	// //Get description from query
-	// description := c.DefaultQuery("description", "")
-
-	// // Order By filtering option add
-	// Sort := c.DefaultQuery("order", "id|desc")
-	// SortArray := strings.Split(Sort, "|")
+	// Order By filtering option add
+	Sort := c.DefaultQuery("order", "id|asc")
+	if strings.Index(Sort, "|") < 0 {
+		c.JSON(400, gin.H{
+			"message": "bad request",
+		})
+		return
+	}
+	SortArray := strings.Split(Sort, "|")
 
 	// Define and get offset for pagination
 	offset := c.Query("offset")
@@ -79,16 +83,12 @@ func GetUsers(c *gin.Context) {
 
 	query := db.Set("gorm:auto_preload", true).Limit(limitInt)
 	query = query.Offset(offsetInt)
-	// query = query.Order(SortArray[0] + " " + SortArray[1])
+	query = query.Order(SortArray[0] + " " + SortArray[1])
 
-	// // In postgres you shoud use ILIKE to make search case insensitive
-	// if name != "" {
-	// 	query = query.Where("name LIKE ?", "%"+name+"%")
-	// }
-
-	// if description != "" {
-	// 	query = query.Where("description LIKE ?", "%"+description+"%")
-	// }
+	// In postgres you shoud use ILIKE to make search case insensitive
+	if court_id != "" {
+		query = query.Where("court_id = ?", court_id)
+	}
 
 	if err := query.Find(&users).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -99,7 +99,7 @@ func GetUsers(c *gin.Context) {
 		// This is a fix for Gorm offset issue
 		offsetInt = 0
 		query = query.Offset(offsetInt)
-		query.Table("users").Count(&count)
+		query.Find(&users).Count(&count)
 
 		data.Total = count
 		data.Data = users
@@ -126,10 +126,19 @@ func CreateUser(c *gin.Context) {
 
 	if !valid.HasErrors() {
 
+		if err := db.Where("username = ?", &user.Username).First(&user).Error; err == nil {
+			c.JSON(400, gin.H{
+				"message": "already have this username",
+			})
+			return
+		}
+
 		hashPassword, _ := hash(user.Password)
 		user.Password = hashPassword
 
-		user.CreatedUid = int(claims["id"].(float64))
+		if claims["id"] != nil {
+			user.CreatedUid = int(claims["id"].(float64))
+		}
 
 		if err := db.Create(&user).Error; err != nil {
 			c.JSON(404, gin.H{
@@ -169,7 +178,9 @@ func UpdateUser(c *gin.Context) {
 		user.Password = hashPassword
 	}
 
-	user.UpdatedUid = int(claims["id"].(float64))
+	if claims["id"] != nil {
+		user.UpdatedUid = int(claims["id"].(float64))
+	}
 
 	if err := db.Save(&user).Error; err != nil {
 		c.JSON(404, gin.H{
@@ -178,5 +189,18 @@ func UpdateUser(c *gin.Context) {
 		fmt.Println(err)
 	} else {
 		c.JSON(200, user)
+	}
+}
+
+func DeleteUser(c *gin.Context) {
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	var user User
+
+	if err := db.Where("id = ? ", id).Delete(&user).Error; err != nil {
+		c.AbortWithStatus(404)
+		fmt.Println(err)
+	} else {
+		c.JSON(200, gin.H{"id#" + id: "deleted"})
 	}
 }

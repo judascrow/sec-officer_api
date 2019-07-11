@@ -46,6 +46,6 @@ func ApplyRoutes(router *gin.Engine) {
 		users.GET("/:id", controllers.GetUser)
 		users.POST("/", controllers.CreateUser)
 		users.PUT("/:id", controllers.UpdateUser)
-		// users.DELETE("/:id", controllers.DeletePost)
+		users.DELETE("/:id", controllers.DeleteUser)
 	}
 }
