@@ -8,6 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
+	"sec-officer_api/middleware"
 )
 
 var db *gorm.DB
@@ -20,6 +21,7 @@ func main() {
 	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{})
 
 	app := gin.Default()
+	app.Use(middleware.CORS())
 
 	routers.ApplyRoutes(app)
 	app.Run(":" + config.Server.Port)

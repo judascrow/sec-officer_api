@@ -3,7 +3,7 @@ package routers
 import (
 	"log"
 	"sec-officer_api/controllers"
-	"sec-officer_api/middleware"
+	
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
@@ -11,7 +11,7 @@ import (
 
 func ApplyRoutes(router *gin.Engine) {
 
-	router.Use(middleware.CORS())
+	
 	authMiddleware := AuthMiddlewareJWT()
 
 	router.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {

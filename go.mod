@@ -21,6 +21,7 @@ require (
 	github.com/couchbase/gomemcached v0.0.0-20190515232915-c4b4ca0eb21d // indirect
 	github.com/couchbase/goutils v0.0.0-20190315194238-f9d42b11473b // indirect
 	github.com/edsrzf/mmap-go v1.0.0 // indirect
+	github.com/gin-contrib/cors v1.3.0
 	github.com/gin-gonic/gin v1.4.0
 	github.com/go-ini/ini v1.42.0 // indirect
 	github.com/go-kit/kit v0.9.0 // indirect
