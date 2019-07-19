@@ -14,6 +14,7 @@ type User struct {
 	RoleID     int        `json:"role_id" gorm:"type:int"`
 	Role       Role       `json:"role"`
 	CourtID    int        `json:"court_id" gorm:"type:int"`
+	Court      Court      `json:"court"`
 	Status     string     `json:"status" gorm:"type:varchar(10);DEFAULT:'A'"`
 	CreatedUid int        `json:"created_uid" gorm:"type:int"`
 	CreatedAt  time.Time  `json:"created_at"`

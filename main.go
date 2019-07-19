@@ -6,9 +6,10 @@ import (
 	"sec-officer_api/models"
 	"sec-officer_api/routers"
 
+	"sec-officer_api/middleware"
+
 	"github.com/gin-gonic/gin"
 	"github.com/jinzhu/gorm"
-	"sec-officer_api/middleware"
 )
 
 var db *gorm.DB
@@ -18,7 +19,7 @@ func main() {
 
 	db = include.InitDB()
 	defer db.Close()
-	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{})
+	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{}, &models.Court{})
 
 	app := gin.Default()
 	app.Use(middleware.CORS())
