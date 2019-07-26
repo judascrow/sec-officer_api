@@ -3,7 +3,6 @@ package routers
 import (
 	"log"
 	"sec-officer_api/controllers"
-	
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
@@ -11,7 +10,6 @@ import (
 
 func ApplyRoutes(router *gin.Engine) {
 
-	
 	authMiddleware := AuthMiddlewareJWT()
 
 	router.NoRoute(authMiddleware.MiddlewareFunc(), func(c *gin.Context) {
@@ -47,5 +45,11 @@ func ApplyRoutes(router *gin.Engine) {
 		users.POST("/", controllers.CreateUser)
 		users.PUT("/:id", controllers.UpdateUser)
 		users.DELETE("/:id", controllers.DeleteUser)
+	}
+
+	courts := apiv1.Group("/courts")
+	courts.Use(authMiddleware.MiddlewareFunc())
+	{
+		courts.GET("/", controllers.GetCourts)
 	}
 }
