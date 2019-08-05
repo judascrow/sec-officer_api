@@ -8,14 +8,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Court Model
 type Court = models.Court
 
-// Data is mainle generated for filtering and pagination
+// DataCourt is mainle generated for filtering and pagination
 type DataCourt struct {
 	Total int64   `json:"total"`
 	Data  []Court `json:"data"`
 }
 
+// GetCourts function
 func GetCourts(c *gin.Context) {
 	db = include.GetDB()
 	var courts []Court

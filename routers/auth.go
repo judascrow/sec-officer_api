@@ -31,6 +31,7 @@ type User = models.User
 var identityKey = "id"
 var identityUsername = "username"
 var identityRole = "role_id"
+var identityCourt = "court_id"
 
 func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 	db = include.GetDB()
@@ -60,6 +61,7 @@ func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 					identityKey:      v.ID,
 					identityUsername: v.Username,
 					identityRole:     v.RoleID,
+					identityCourt:    v.CourtID,
 				}
 			}
 			return jwt.MapClaims{}
@@ -70,6 +72,7 @@ func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 				ID:       uint(claims["id"].(float64)),
 				Username: claims["username"].(string),
 				RoleID:   int(claims["role_id"].(float64)),
+				CourtID:  int(claims["court_id"].(float64)),
 			}
 		},
 		Authenticator: func(c *gin.Context) (interface{}, error) {
@@ -92,6 +95,7 @@ func AuthMiddlewareJWT() *jwt.GinJWTMiddleware {
 					FirstName: user.FirstName,
 					LastName:  user.LastName,
 					RoleID:    user.RoleID,
+					CourtID:   user.CourtID,
 				}, nil
 			}
 
@@ -149,5 +153,6 @@ func helloHandler(c *gin.Context) {
 		"userID":   claims["id"],
 		"username": user.(*User).Username,
 		"roleID":   user.(*User).RoleID,
+		"CourtID":  user.(*User).CourtID,
 	})
 }

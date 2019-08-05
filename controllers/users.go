@@ -13,10 +13,13 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+// User Model
 type User = models.User
+
+// Role Model
 type Role = models.Role
 
-// Data is mainle generated for filtering and pagination
+// DataUser is mainle generated for filtering and pagination
 type DataUser struct {
 	Total int64  `json:"total"`
 	Data  []User `json:"data"`
@@ -27,6 +30,7 @@ func hash(password string) (string, error) {
 	return string(bytes), err
 }
 
+// GetUser Model
 func GetUser(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")
@@ -48,6 +52,7 @@ func GetUser(c *gin.Context) {
 	}
 }
 
+// GetUsers Model
 func GetUsers(c *gin.Context) {
 	db = include.GetDB()
 	var users []User
@@ -55,7 +60,7 @@ func GetUsers(c *gin.Context) {
 	var count int64
 
 	//Get court from query
-	court_id := c.DefaultQuery("court_id", "")
+	courtID := c.DefaultQuery("court_id", "")
 
 	// Order By filtering option add
 	Sort := c.DefaultQuery("order", "id|asc")
@@ -86,8 +91,8 @@ func GetUsers(c *gin.Context) {
 	query = query.Order(SortArray[0] + " " + SortArray[1])
 
 	// In postgres you shoud use ILIKE to make search case insensitive
-	if court_id != "" {
-		query = query.Where("court_id = ?", court_id)
+	if courtID != "" {
+		query = query.Where("court_id = ?", courtID)
 	}
 
 	if err := query.Find(&users).Error; err != nil {
@@ -108,6 +113,7 @@ func GetUsers(c *gin.Context) {
 	}
 }
 
+// CreateUser Model
 func CreateUser(c *gin.Context) {
 	db = include.GetDB()
 	claims := jwt.ExtractClaims(c)
@@ -154,6 +160,7 @@ func CreateUser(c *gin.Context) {
 
 }
 
+// UpdateUser Model
 func UpdateUser(c *gin.Context) {
 	db = include.GetDB()
 	claims := jwt.ExtractClaims(c)
@@ -169,11 +176,11 @@ func UpdateUser(c *gin.Context) {
 		return
 	}
 
-	password_old := user.Password
+	passwordOld := user.Password
 
 	c.BindJSON(&user)
 
-	if user.Password != password_old {
+	if user.Password != passwordOld {
 		hashPassword, _ := hash(user.Password)
 		user.Password = hashPassword
 	}
@@ -192,6 +199,7 @@ func UpdateUser(c *gin.Context) {
 	}
 }
 
+// DeleteUser Model
 func DeleteUser(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")

@@ -27,6 +27,7 @@ type Data struct {
 	Data  []Post `json:"data"`
 }
 
+// GetPost function
 func GetPost(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")
@@ -48,6 +49,7 @@ func GetPost(c *gin.Context) {
 	}
 }
 
+// GetPosts function
 func GetPosts(c *gin.Context) {
 	db = include.GetDB()
 	var posts []Post
@@ -109,6 +111,7 @@ func GetPosts(c *gin.Context) {
 	}
 }
 
+// CreatePost function
 func CreatePost(c *gin.Context) {
 	db = include.GetDB()
 	var post Post
@@ -123,6 +126,7 @@ func CreatePost(c *gin.Context) {
 	}
 }
 
+// UpdatePost function
 func UpdatePost(c *gin.Context) {
 	db = include.GetDB()
 	var post Post
@@ -139,6 +143,7 @@ func UpdatePost(c *gin.Context) {
 	c.JSON(200, post)
 }
 
+// DeletePost function
 func DeletePost(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")
