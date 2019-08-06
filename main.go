@@ -19,7 +19,7 @@ func main() {
 
 	db = include.InitDB()
 	defer db.Close()
-	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{}, &models.Court{}, &models.SecPersons{}, &models.CourtReport{}, &models.CourtReportSecPersons{})
+	db.AutoMigrate(&models.Post{}, &models.Tag{}, &models.User{}, &models.Role{}, &models.Court{}, &models.SecPersons{}, &models.CourtReport{}, &models.CourtReportSecPerson{})
 
 	app := gin.Default()
 	app.Use(middleware.CORS())
