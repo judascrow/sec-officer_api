@@ -8,7 +8,8 @@ import (
 type CourtReport struct {
 	ID                    uint                    `json:"id" gorm:"primary_key"`
 	CourtID               int                     `json:"court_id" gorm:"type:int;unique_index:idx_1;not null"`
-	Period                int                     `json:"period" gorm:"type:int(4);unique_index:idx_1;not null"`
+	Year                string                     	`json:"year" gorm:"type:varchar(4);unique_index:idx_1;not null"`
+	Month                string                     `json:"month" gorm:"type:varchar(2);unique_index:idx_1;not null"`
 	Work7Day              int                     `json:"work_7day" gorm:"type:int"`
 	Work6Day              int                     `json:"work_6day" gorm:"type:int"`
 	TotalShuffle          int                     `json:"total_shuffle" gorm:"type:int"`

@@ -32,7 +32,7 @@ func GetCourtReports(c *gin.Context) {
 		userCourtID = int(claims["court_id"].(float64))
 	}
 
-	query := db.Set("gorm:auto_preload", true).Where("court_id = ?", userCourtID)
+	query := db.Set("gorm:auto_preload", true).Where("court_id = ?", userCourtID).Order("year desc, month desc")
 
 	if err := query.Find(&courtReports).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -61,7 +61,8 @@ func CreateCourtReport(c *gin.Context) {
 	}
 
 	valid := validation.Validation{}
-	valid.Required(&courtReport.Period, "period").Message("period is required")
+	valid.Required(&courtReport.Year, "year").Message("Year is required")
+	valid.Required(&courtReport.Month, "month").Message("Month is required")
 	// valid.Required(&courtReport.Work7Day, "work_7day").Message("work_7day is required")
 	// valid.Required(&courtReport.Work6Day, "work_6day").Message("work_6day is required")
 	// valid.Required(&courtReport.TotalShuffle, "total_shuffle").Message("total_shuffle is required")
@@ -78,7 +79,7 @@ func CreateCourtReport(c *gin.Context) {
 			courtReport.CourtID = int(claims["court_id"].(float64))
 		}
 
-		if err := db.Where("court_id = ? AND period = ?", &courtReport.CourtID, &courtReport.Period).First(&courtReport).Error; err == nil {
+		if err := db.Where("court_id = ? AND year = ? AND month = ?", &courtReport.CourtID, &courtReport.Year, &courtReport.Month).First(&courtReport).Error; err == nil {
 			c.JSON(400, gin.H{
 				"message": "already have this period",
 			})

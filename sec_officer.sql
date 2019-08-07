@@ -370,7 +370,8 @@ DROP TABLE IF EXISTS `court_reports`;
 CREATE TABLE IF NOT EXISTS `court_reports` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `court_id` int(11) NOT NULL,
-  `period` int(4) NOT NULL,
+  `year` varchar(4) NOT NULL,
+  `month` varchar(2) NOT NULL,
   `work7_day` int(11) DEFAULT NULL,
   `work6_day` int(11) DEFAULT NULL,
   `total_shuffle` int(11) DEFAULT NULL,
@@ -386,15 +387,15 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `updated_uid` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_1` (`court_id`,`period`)
+  UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table sec_officer.court_reports: ~2 rows (approximately)
 DELETE FROM `court_reports`;
 /*!40000 ALTER TABLE `court_reports` DISABLE KEYS */;
-INSERT INTO `court_reports` (`id`, `court_id`, `period`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, 158, 201908, 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', 11, '2019-08-06 15:05:06', 0, '2019-08-06 15:05:06'),
-	(2, 158, 201909, 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', 11, '2019-08-06 15:07:05', 0, '2019-08-06 15:07:05');
+INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
+	(1, 158, '2019', '07', 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'S', 11, '2019-08-07 11:27:05', 0, '2019-08-07 11:27:05'),
+	(2, 158, '2019', '08', 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', 11, '2019-08-07 11:38:26', 0, '2019-08-07 11:38:26');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -423,10 +424,10 @@ CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
 DELETE FROM `court_report_sec_people`;
 /*!40000 ALTER TABLE `court_report_sec_people` DISABLE KEYS */;
 INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_persons_id`, `type`, `day_month`, `day_month_work`, `shuffle`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '', '-', '2019-08-06 15:05:06', '2019-08-06 15:05:06'),
-	(2, 1, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '', '-', '2019-08-06 15:05:06', '2019-08-06 15:05:06'),
-	(3, 2, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-06 15:07:05', '2019-08-06 15:07:05'),
-	(4, 2, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-06 15:07:05', '2019-08-06 15:07:05');
+	(1, 1, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:27:05', '2019-08-07 11:27:05'),
+	(2, 1, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:27:05', '2019-08-07 11:27:05'),
+	(3, 2, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:38:26', '2019-08-07 11:38:26'),
+	(4, 2, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:38:26', '2019-08-07 11:38:26');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
