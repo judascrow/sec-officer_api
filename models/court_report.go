@@ -31,15 +31,16 @@ type CourtReport struct {
 type CourtReportSecPerson struct {
 	ID                 uint       `json:"id" gorm:"primary_key"`
 	CourtReportID      int        `json:"court_report_id" gorm:"type:int;unique_index:idx_1;not null"`
-	SecPersonsID       int        `json:"sec_persons_id" gorm:"type:int;unique_index:idx_1;not null"`
-	SecPersons         SecPersons `json:"sec_persons"`
+	// SecPersonsID       int        `json:"sec_persons_id" gorm:"type:int;unique_index:idx_1;not null"`
+	// SecPersons         SecPersons `json:"sec_persons"`
+	SecPersonName      string `json:"sec_person_name"`
 	Type               int        `json:"type" gorm:"type:int"`
 	DayMonth           int        `json:"day_month" gorm:"type:int"`
 	DayMonthWork       int        `json:"day_month_work" gorm:"type:int"`
 	Shuffle            int        `json:"shuffle" gorm:"type:int"`
 	ShuffleDateName    string     `json:"shuffle_date_name" gorm:"type:varchar(500)"`
 	ShuffleAbsence     int        `json:"shuffle_Absence" gorm:"type:int"`
-	ShuffleAbsenceDate string  `json:"shuffle_Absence_date" `
+	ShuffleAbsenceDate string  		`json:"shuffle_Absence_date" gorm:"type:varchar(500)" `
 	HNot12             int        `json:"h_not_12" gorm:"type:int"`
 	HNot12DateH        string     `json:"h_not_12_date_h" gorm:"type:varchar(500)"`
 	Remark             string     `json:"remark" gorm:"type:varchar(500)"`

@@ -49,6 +49,8 @@ func GetSecPersons(c *gin.Context) {
 	var data DataPersons
 	var count int64
 
+	status := c.DefaultQuery("status", "")
+
 	claims := jwt.ExtractClaims(c)
 	userCourtID := 0
 	if claims["court_id"] != nil {
@@ -56,6 +58,10 @@ func GetSecPersons(c *gin.Context) {
 	}
 
 	query := db.Where("court_id = ?", userCourtID)
+
+	if status != "" {
+		query = query.Where("status = ?", status)
+	}
 
 	if err := query.Find(&secPersons).Error; err != nil {
 		c.AbortWithStatus(404)
