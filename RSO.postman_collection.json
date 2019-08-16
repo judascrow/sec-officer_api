@@ -48,7 +48,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUwNzcxNTAsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUwNzM1NTAsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.aBby-LwXL0eSr5ALNMOCsstsyd6akgT0-vN42BdM3Nw",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjU2NjY5NzUsImlkIjoxMSwib3JpZ19pYXQiOjE1NjU2NjMzNzUsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.WJtboDZC8LlNkDkyxJwsu0TQxdehb49-eMQb2fWN2ko",
 							"type": "string"
 						}
 					]
@@ -60,7 +60,7 @@
 					"raw": ""
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/sec_persons/2",
+					"raw": "http://localhost:8080/api/v1/sec_persons/?status=A",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -70,7 +70,13 @@
 						"api",
 						"v1",
 						"sec_persons",
-						"2"
+						""
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "A"
+						}
 					]
 				}
 			},
@@ -84,7 +90,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUwODExMTMsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUwNzc1MTMsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.jpDxi8gADY-9FwCJryrvfdtnmvn9oUUOsM4_bAikplY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUxNTUzNTcsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUxNTE3NTcsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.LtiD8fNGg_Jnjt5QHwnq_0Rqvn0nIpf9XXdYjs_YWTs",
 							"type": "string"
 						}
 					]
@@ -100,10 +106,10 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "{\n\t\"period\": 201909,\n\t\"work_7day\": 30,\n\t\"work_6day\": 25,\n\t\"total_shuffle\": 0,\n\t\"total_shuffle_except\": 0,\n\t\"total_shuffle_absence\": 0,\n\t\"reporter_name\": \"reporter_name\",\n\t\"reporter_position\": \"reporter_position\",\n\t\"inspector_name\": \"inspector_name\",\n\t\"inspector_position\": \"inspector_position\",\n\t\"court_report_sec_persons\": [\n\t\t{\n\t\t\t\"sec_persons_id\": 1,\n\t\t\t\"type\": 1,\n\t\t\t\"day_month\": 30,\n\t\t\t\"day_month_work\": 30,\n\t\t\t\"shuffle\": 0,\n\t\t\t\"shuffle_date_name\": \"-\",\n\t\t\t\"shuffle_Absence\": 0,\n\t\t\t\"shuffle_Absence_date\": \"1970-01-01 00:00:00\",\n\t\t\t\"h_not_12\": 0,\n\t\t\t\"h_not_12_date_h\": \"-\",\n\t\t\t\"remark\": \"-\"\n\t\t},\n\t\t{\n\t\t\t\"sec_persons_id\": 2,\n\t\t\t\"type\": 2,\n\t\t\t\"day_month\": 30,\n\t\t\t\"day_month_work\": 30,\n\t\t\t\"shuffle\": 0,\n\t\t\t\"shuffle_date_name\": \"-\",\n\t\t\t\"shuffle_Absence\": 0,\n\t\t\t\"shuffle_Absence_date\": \"1970-01-01 00:00:00\",\n\t\t\t\"h_not_12\": 0,\n\t\t\t\"h_not_12_date_h\": \"-\",\n\t\t\t\"remark\": \"-\"\n\t\t}\n\t]\n}"
+					"raw": "{\n\t\"year\": \"2019\",\n\t\"month\": \"08\",\n\t\"work_7day\": 30,\n\t\"work_6day\": 25,\n\t\"total_shuffle\": 0,\n\t\"total_shuffle_except\": 0,\n\t\"total_shuffle_absence\": 0,\n\t\"reporter_name\": \"reporter_name\",\n\t\"reporter_position\": \"reporter_position\",\n\t\"inspector_name\": \"inspector_name\",\n\t\"inspector_position\": \"inspector_position\",\n\t\"court_report_sec_persons\": [\n\t\t{\n\t\t\t\"sec_persons_id\": 1,\n\t\t\t\"type\": 1,\n\t\t\t\"day_month\": 30,\n\t\t\t\"day_month_work\": 30,\n\t\t\t\"shuffle\": 0,\n\t\t\t\"shuffle_date_name\": \"-\",\n\t\t\t\"shuffle_Absence\": 0,\n\t\t\t\"shuffle_Absence_date\": \"1970-01-01 00:00:00\",\n\t\t\t\"h_not_12\": 0,\n\t\t\t\"h_not_12_date_h\": \"-\",\n\t\t\t\"remark\": \"-\"\n\t\t},\n\t\t{\n\t\t\t\"sec_persons_id\": 2,\n\t\t\t\"type\": 2,\n\t\t\t\"day_month\": 30,\n\t\t\t\"day_month_work\": 30,\n\t\t\t\"shuffle\": 0,\n\t\t\t\"shuffle_date_name\": \"-\",\n\t\t\t\"shuffle_Absence\": 0,\n\t\t\t\"shuffle_Absence_date\": \"1970-01-01 00:00:00\",\n\t\t\t\"h_not_12\": 0,\n\t\t\t\"h_not_12_date_h\": \"-\",\n\t\t\t\"remark\": \"-\"\n\t\t}\n\t]\n}"
 				},
 				"url": {
-					"raw": "http://localhost:8080/api/v1/court_report/",
+					"raw": "http://localhost:8080/api/v1/court_reports/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -112,7 +118,7 @@
 					"path": [
 						"api",
 						"v1",
-						"court_report",
+						"court_reports",
 						""
 					]
 				}
@@ -127,7 +133,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUwODExMTMsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUwNzc1MTMsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.jpDxi8gADY-9FwCJryrvfdtnmvn9oUUOsM4_bAikplY",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUyNTgxMzAsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUyNTQ1MzAsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.WtXED2lBNYy3k6MQLX2g-1ETL80qs2nE7E--bwcmgow",
 							"type": "string"
 						}
 					]
