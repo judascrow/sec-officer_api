@@ -30,7 +30,7 @@ type CourtReport struct {
 // CourtReportSecPersons Models
 type CourtReportSecPerson struct {
 	ID                 uint       `json:"id" gorm:"primary_key"`
-	CourtReportID      int        `json:"court_report_id" gorm:"type:int;unique_index:idx_1;not null"`
+	CourtReportID      int        `json:"court_report_id" gorm:"type:int;not null"`
 	// SecPersonsID       int        `json:"sec_persons_id" gorm:"type:int;unique_index:idx_1;not null"`
 	// SecPersons         SecPersons `json:"sec_persons"`
 	SecPersonName      string `json:"sec_person_name"`
@@ -38,6 +38,7 @@ type CourtReportSecPerson struct {
 	DayMonth           int        `json:"day_month" gorm:"type:int"`
 	DayMonthWork       int        `json:"day_month_work" gorm:"type:int"`
 	Shuffle            int        `json:"shuffle" gorm:"type:int"`
+	ShuffleExcept            int        `json:"shuffle_except" gorm:"type:int"`
 	ShuffleDateName    string     `json:"shuffle_date_name" gorm:"type:varchar(500)"`
 	ShuffleAbsence     int        `json:"shuffle_Absence" gorm:"type:int"`
 	ShuffleAbsenceDate string  		`json:"shuffle_Absence_date" gorm:"type:varchar(500)" `
