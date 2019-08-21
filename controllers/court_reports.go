@@ -13,6 +13,9 @@ import (
 // CourtReport Model
 type CourtReport = models.CourtReport
 
+// CourtReportSecPerson Model
+type CourtReportSecPerson = models.CourtReportSecPerson
+
 // DataCourtReport Model
 type DataCourtReport struct {
 	Total int64        `json:"total"`
@@ -117,4 +120,31 @@ func CreateCourtReport(c *gin.Context) {
 		c.JSON(400, valid.Errors)
 	}
 
+}
+
+// DeleteCourtReport Function
+func DeleteCourtReport(c *gin.Context) {
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	var courtReport CourtReport
+
+	claims := jwt.ExtractClaims(c)
+	userCourtID := 0
+	if claims["court_id"] != nil {
+		userCourtID = int(claims["court_id"].(float64))
+	}
+
+	if err := db.Where("id = ? AND court_id = ? ", id, userCourtID).Delete(&courtReport).Error; err != nil {
+		c.JSON(404, gin.H{"message": err.Error()})
+		fmt.Println(err)
+	} else {
+
+		if err := db.Where("court_report_id = ?", id).Delete(CourtReportSecPerson{}).Error; err != nil {
+			c.JSON(404, gin.H{"message": err.Error()})
+			fmt.Println(err)
+		} else {
+			c.JSON(200, gin.H{"status": "deleted"})
+		}
+		
+	}
 }

@@ -66,8 +66,9 @@ func ApplyRoutes(router *gin.Engine) {
 	courtReport.Use(authMiddleware.MiddlewareFunc())
 	{
 		courtReport.GET("/", controllers.GetCourtReports)
-		// courtReport.GET("/:id", controllers.GetSecPerson)
+		//courtReport.GET("/:id", controllers.GetCourtReport)
 		courtReport.POST("/", controllers.CreateCourtReport)
 		// courtReport.PUT("/:id", controllers.UpdateSecPerson)
+		courtReport.DELETE("/:id", controllers.DeleteCourtReport)
 	}
 }
