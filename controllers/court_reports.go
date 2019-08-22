@@ -8,7 +8,7 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
-	"path/filepath"
+	//"path/filepath"
 )
 
 // CourtReport Model
@@ -19,7 +19,7 @@ type CourtReportSecPerson = models.CourtReportSecPerson
 
 // DataCourtReport Model
 type DataCourtReport struct {
-	Total int64        `json:"total"`
+	Total int64         `json:"total"`
 	Data  []CourtReport `json:"data"`
 }
 
@@ -57,7 +57,7 @@ func GetCourtReport(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")
 	var courtReport CourtReport
-	
+
 	var courtReportSecPerson []CourtReportSecPerson
 
 	claims := jwt.ExtractClaims(c)
@@ -180,6 +180,8 @@ func UpdateCourtReport(c *gin.Context) {
 		courtReport.UpdatedUID = int(claims["id"].(float64))
 	}
 
+	courtReport.Status = "W"
+
 	if err := db.Save(&courtReport).Error; err != nil {
 		c.JSON(404, gin.H{
 			"message": err.Error(),
@@ -213,23 +215,41 @@ func DeleteCourtReport(c *gin.Context) {
 		} else {
 			c.JSON(200, gin.H{"status": "deleted"})
 		}
-		
+
 	}
 }
 
+// UploadFile Function
 func UploadFile(c *gin.Context) {
-	//id := c.Params.ByName("id")
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	claims := jwt.ExtractClaims(c)
+	var courtReport CourtReport
+
+	CourtID := 0
+	if claims["court_id"] != nil {
+		CourtID = int(claims["court_id"].(float64))
+	}
+
 	// Source
 	file, err := c.FormFile("file")
 	if err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	filename := filepath.Base(file.Filename)
-	if err := c.SaveUploadedFile(file, "uploads/"+filename); err != nil {
+	//filename := filepath.Base(file.Filename)
+	filePath := "uploads/" + id + ".pdf"
+	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"message": file})
+	updatedUID := 0
+	if claims["id"] != nil {
+		updatedUID = int(claims["id"].(float64))
+	}
+
+	db.Model(&courtReport).Where("id = ? AND court_id = ?", id, CourtID).Updates(map[string]interface{}{"file_path": filePath, "status": "S", "updated_uid": updatedUID})
+
+	c.JSON(200, courtReport)
 }
