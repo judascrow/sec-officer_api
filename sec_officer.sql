@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `casbin_rule` (
   `v5` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.casbin_rule: ~7 rows (approximately)
+-- Dumping data for table sec_officer.casbin_rule: ~6 rows (approximately)
 DELETE FROM `casbin_rule`;
 /*!40000 ALTER TABLE `casbin_rule` DISABLE KEYS */;
 INSERT INTO `casbin_rule` (`p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`) VALUES
@@ -38,7 +38,7 @@ INSERT INTO `casbin_rule` (`p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`) VALUES
 	('p', '1', '/api/v1/courts/', 'GET', NULL, NULL, NULL),
 	('p', '2', '/api/v1/me/', 'GET', NULL, NULL, NULL),
 	('p', '1', '/api/v1/sec_persons/*', '	(GET)|(POST)|(PUT)|(DELETE)', NULL, NULL, NULL),
-	('p', '2', '/api/v1/court_reports/*', '	(GET)|(POST)|(PUT)|(DELETE)', NULL, NULL, NULL),
+	('p', '2', '/api/v1/court_reports/*', '	(GET)|(POST)|(PUT)|(DELETE)|(PATCH)', NULL, NULL, NULL),
 	('p', '2', '/api/v1/sec_persons/*', '	(GET)|(POST)|(PUT)|(DELETE)', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `casbin_rule` ENABLE KEYS */;
 
@@ -382,20 +382,20 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `inspector_name` varchar(255) DEFAULT NULL,
   `inspector_position` varchar(255) DEFAULT NULL,
   `status` varchar(10) DEFAULT 'W',
+  `file_path` varchar(255) DEFAULT NULL,
   `created_uid` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_uid` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_reports: ~2 rows (approximately)
+-- Dumping data for table sec_officer.court_reports: ~0 rows (approximately)
 DELETE FROM `court_reports`;
 /*!40000 ALTER TABLE `court_reports` DISABLE KEYS */;
-INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, 158, '2019', '07', 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'S', 11, '2019-08-07 11:27:05', 0, '2019-08-07 11:27:05'),
-	(2, 158, '2019', '08', 30, 25, 0, 0, 0, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', 11, '2019-08-07 11:38:26', 0, '2019-08-07 11:38:26');
+INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `file_path`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
+	(1, 158, '2019', '06', 30, 25, 4, 3, 3, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', '', 11, '2019-08-22 15:56:41', 0, '2019-08-22 15:56:41');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -403,31 +403,29 @@ DROP TABLE IF EXISTS `court_report_sec_people`;
 CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `court_report_id` int(11) NOT NULL,
-  `sec_persons_id` int(11) NOT NULL,
+  `sec_person_name` varchar(255) DEFAULT NULL,
   `type` int(11) DEFAULT NULL,
   `day_month` int(11) DEFAULT NULL,
   `day_month_work` int(11) DEFAULT NULL,
   `shuffle` int(11) DEFAULT NULL,
+  `shuffle_except` int(11) DEFAULT NULL,
   `shuffle_date_name` varchar(500) DEFAULT NULL,
   `shuffle_absence` int(11) DEFAULT NULL,
-  `shuffle_absence_date` varchar(255) DEFAULT NULL,
+  `shuffle_absence_date` varchar(500) DEFAULT NULL,
   `h_not12` int(11) DEFAULT NULL,
   `h_not12_date_h` varchar(500) DEFAULT NULL,
   `remark` varchar(500) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `idx_1` (`court_report_id`,`sec_persons_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_report_sec_people: ~4 rows (approximately)
+-- Dumping data for table sec_officer.court_report_sec_people: ~0 rows (approximately)
 DELETE FROM `court_report_sec_people`;
 /*!40000 ALTER TABLE `court_report_sec_people` DISABLE KEYS */;
-INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_persons_id`, `type`, `day_month`, `day_month_work`, `shuffle`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
-	(1, 1, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:27:05', '2019-08-07 11:27:05'),
-	(2, 1, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:27:05', '2019-08-07 11:27:05'),
-	(3, 2, 1, 1, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:38:26', '2019-08-07 11:38:26'),
-	(4, 2, 2, 2, 30, 30, 0, '-', 0, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-07 11:38:26', '2019-08-07 11:38:26');
+INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_person_name`, `type`, `day_month`, `day_month_work`, `shuffle`, `shuffle_except`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
+	(1, 1, 'นายXXX', 1, 30, 28, 2, 1, '-', 1, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-22 15:56:41'),
+	(2, 1, 'นายYYY', 2, 25, 24, 2, 2, '-', 2, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-22 15:56:41');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
@@ -483,14 +481,14 @@ CREATE TABLE IF NOT EXISTS `sec_persons` (
   `updated_uid` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table sec_officer.sec_persons: ~3 rows (approximately)
 DELETE FROM `sec_persons`;
 /*!40000 ALTER TABLE `sec_persons` DISABLE KEYS */;
 INSERT INTO `sec_persons` (`id`, `nid`, `full_name`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
 	(1, '1234567890123', 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 158, 'A', NULL, NULL, NULL, NULL),
-	(2, '1234567890124', 'นายเจ้าหน้าที่ รักษาความปลอดภัย22', 158, 'I', 11, '2019-08-06 11:27:06', 11, '2019-08-06 13:09:42'),
+	(2, '1234567890124', 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 158, 'A', 11, '2019-08-06 11:27:06', 11, '2019-08-15 09:36:01'),
 	(3, '1234567890125', 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 158, 'A', 11, '2019-08-06 13:24:45', 0, '2019-08-06 13:24:45');
 /*!40000 ALTER TABLE `sec_persons` ENABLE KEYS */;
 

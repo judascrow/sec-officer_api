@@ -8,6 +8,7 @@ import (
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/astaxie/beego/validation"
 	"github.com/gin-gonic/gin"
+	"path/filepath"
 )
 
 // CourtReport Model
@@ -48,6 +49,36 @@ func GetCourtReports(c *gin.Context) {
 		data.Data = courtReports
 
 		c.JSON(200, data)
+	}
+}
+
+// GetCourtReport function
+func GetCourtReport(c *gin.Context) {
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	var courtReport CourtReport
+	
+	var courtReportSecPerson []CourtReportSecPerson
+
+	claims := jwt.ExtractClaims(c)
+
+	userCourtID := 0
+
+	if claims["court_id"] != nil {
+		userCourtID = int(claims["court_id"].(float64))
+	}
+	if err := db.Where("id = ? AND  court_id = ?", id, userCourtID).First(&courtReport).Error; err != nil {
+
+		c.JSON(404, gin.H{
+			"message": "ไม่พบข้อมูล",
+		})
+		fmt.Println(err)
+
+	} else {
+		db.Model(&courtReport).Related(&courtReportSecPerson)
+
+		courtReport.CourtReportSecPersons = courtReportSecPerson
+		c.JSON(200, courtReport)
 	}
 }
 
@@ -122,6 +153,43 @@ func CreateCourtReport(c *gin.Context) {
 
 }
 
+// UpdateCourtReport function
+func UpdateCourtReport(c *gin.Context) {
+	db = include.GetDB()
+	claims := jwt.ExtractClaims(c)
+
+	var courtReport CourtReport
+	id := c.Params.ByName("id")
+
+	CourtID := 0
+	if claims["court_id"] != nil {
+		CourtID = int(claims["court_id"].(float64))
+	}
+
+	if err := db.Where("id = ? AND court_id = ?", id, CourtID).First(&courtReport).Error; err != nil {
+		c.JSON(404, gin.H{
+			"message": err.Error(),
+		})
+		fmt.Println(err)
+		return
+	}
+
+	c.BindJSON(&courtReport)
+
+	if claims["id"] != nil {
+		courtReport.UpdatedUID = int(claims["id"].(float64))
+	}
+
+	if err := db.Save(&courtReport).Error; err != nil {
+		c.JSON(404, gin.H{
+			"message": err.Error(),
+		})
+		fmt.Println(err)
+	} else {
+		c.JSON(200, courtReport)
+	}
+}
+
 // DeleteCourtReport Function
 func DeleteCourtReport(c *gin.Context) {
 	db = include.GetDB()
@@ -147,4 +215,21 @@ func DeleteCourtReport(c *gin.Context) {
 		}
 		
 	}
+}
+
+func UploadFile(c *gin.Context) {
+	//id := c.Params.ByName("id")
+	// Source
+	file, err := c.FormFile("file")
+	if err != nil {
+		c.JSON(400, gin.H{"message": err.Error()})
+		return
+	}
+	filename := filepath.Base(file.Filename)
+	if err := c.SaveUploadedFile(file, "uploads/"+filename); err != nil {
+		c.JSON(400, gin.H{"message": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{"message": file})
 }

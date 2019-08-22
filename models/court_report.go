@@ -20,6 +20,7 @@ type CourtReport struct {
 	InspectorName         string                  `json:"inspector_name" gorm:"type:varchar(255)"`
 	InspectorPosition     string                  `json:"inspector_position" gorm:"type:varchar(255)"`
 	Status                string                  `json:"status" gorm:"type:varchar(10);DEFAULT:'W'"`
+	FilePath              string                  `json:"file_path" gorm:"type:varchar(255)"`
 	CreatedUID            int                     `json:"created_uid" gorm:"type:int"`
 	CreatedAt             time.Time               `json:"created_at"`
 	UpdatedUID            int                     `json:"updated_uid" gorm:"type:int"`

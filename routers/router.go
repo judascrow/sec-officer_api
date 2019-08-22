@@ -60,15 +60,17 @@ func ApplyRoutes(router *gin.Engine) {
 		secPersons.GET("/:id", controllers.GetSecPerson)
 		secPersons.POST("/", controllers.CreateSecPerson)
 		secPersons.PUT("/:id", controllers.UpdateSecPerson)
+		secPersons.DELETE("/:id", controllers.DeleteSecPerson)
 	}
 
 	courtReport := apiv1.Group("/court_reports")
 	courtReport.Use(authMiddleware.MiddlewareFunc())
 	{
 		courtReport.GET("/", controllers.GetCourtReports)
-		//courtReport.GET("/:id", controllers.GetCourtReport)
+		courtReport.GET("/:id", controllers.GetCourtReport)
 		courtReport.POST("/", controllers.CreateCourtReport)
-		// courtReport.PUT("/:id", controllers.UpdateSecPerson)
+		courtReport.PUT("/:id", controllers.UpdateCourtReport)
 		courtReport.DELETE("/:id", controllers.DeleteCourtReport)
+		courtReport.PATCH("/:id", controllers.UploadFile)
 	}
 }

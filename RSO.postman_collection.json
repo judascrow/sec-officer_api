@@ -90,7 +90,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjYyMDQwMjQsImlkIjoxMSwib3JpZ19pYXQiOjE1NjYyMDA0MjQsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.R80CkG3LguIHKFdnDvtmRGu5rOsTjrNis1pMBUfEL_s",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjY0NjY3MjMsImlkIjoxMSwib3JpZ19pYXQiOjE1NjY0NjMxMjMsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.Excjpn4HYLrhDCb-Voe50tuj49EIfb2Vo3lkNq2iGjQ",
 							"type": "string"
 						}
 					]
@@ -133,7 +133,7 @@
 					"bearer": [
 						{
 							"key": "token",
-							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjUyNTgxMzAsImlkIjoxMSwib3JpZ19pYXQiOjE1NjUyNTQ1MzAsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.WtXED2lBNYy3k6MQLX2g-1ETL80qs2nE7E--bwcmgow",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjY0NDM5MTYsImlkIjoxMSwib3JpZ19pYXQiOjE1NjY0NDAzMTYsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.4EsVfrV_1HGQnE9mBu52HFolk6rslaG6eAIy36yUCjo",
 							"type": "string"
 						}
 					]
@@ -141,7 +141,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/api/v1/court_report/",
+					"raw": "http://localhost:8080/api/v1/court_reports/",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -150,8 +150,126 @@
 					"path": [
 						"api",
 						"v1",
-						"court_report",
+						"court_reports",
 						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "ลบรายงาน",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjYzNjEwMzMsImlkIjoxMSwib3JpZ19pYXQiOjE1NjYzNTc0MzMsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.5gpsWDpKZFCgFz93Sm4H2czMvTw_tSVnzzyMzlVTi9k",
+							"type": "string"
+						}
+					]
+				},
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/court_reports/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"court_reports",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "แก้ไขรายงาน",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjY0NDM5MTYsImlkIjoxMSwib3JpZ19pYXQiOjE1NjY0NDAzMTYsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.4EsVfrV_1HGQnE9mBu52HFolk6rslaG6eAIy36yUCjo",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"court_id\": 158,\r\n    \"year\": \"2562\",\r\n    \"month\": \"07\",\r\n    \"work_7day\": 31,\r\n    \"work_6day\": 25,\r\n    \"total_shuffle\": 0,\r\n    \"total_shuffle_except\": 0,\r\n    \"total_shuffle_absence\": 0,\r\n    \"reporter_name\": \"\",\r\n    \"reporter_position\": \"\",\r\n    \"inspector_name\": \"\",\r\n    \"inspector_position\": \"\",\r\n    \"status\": \"W\",\r\n    \"created_uid\": 11,\r\n    \"created_at\": \"2019-08-21T11:19:54+07:00\",\r\n    \"updated_uid\": 0,\r\n    \"updated_at\": \"2019-08-21T11:19:54+07:00\",\r\n    \"court_report_sec_persons\": [\r\n        {\r\n            \"id\": 1,\r\n            \"court_report_id\": 1,\r\n            \"sec_person_name\": \"นายเจ้าหน้าที่ รักษาความปลอดภัย\",\r\n            \"type\": 1,\r\n            \"day_month\": 31,\r\n            \"day_month_work\": 30,\r\n            \"shuffle\": 0,\r\n            \"shuffle_except\": 0,\r\n            \"shuffle_date_name\": \"\",\r\n            \"shuffle_Absence\": 0,\r\n            \"shuffle_Absence_date\": \"\",\r\n            \"h_not_12\": 0,\r\n            \"h_not_12_date_h\": \"\",\r\n            \"remark\": \"\",\r\n            \"created_at\": \"2019-08-21T11:19:54+07:00\",\r\n            \"updated_at\": \"2019-08-21T11:19:54+07:00\"\r\n        },\r\n        {\r\n            \"id\": 2,\r\n            \"court_report_id\": 1,\r\n            \"sec_person_name\": \"นายเจ้าหน้าที่ รักษาความปลอดภัย2\",\r\n            \"type\": 1,\r\n            \"day_month\": 31,\r\n            \"day_month_work\": 29,\r\n            \"shuffle\": 0,\r\n            \"shuffle_except\": 0,\r\n            \"shuffle_date_name\": \"\",\r\n            \"shuffle_Absence\": 0,\r\n            \"shuffle_Absence_date\": \"\",\r\n            \"h_not_12\": 0,\r\n            \"h_not_12_date_h\": \"\",\r\n            \"remark\": \"\",\r\n            \"created_at\": \"2019-08-21T11:19:54+07:00\",\r\n            \"updated_at\": \"2019-08-21T11:19:54+07:00\"\r\n        },\r\n        {\r\n            \"id\": 3,\r\n            \"court_report_id\": 1,\r\n            \"sec_person_name\": \"นายเจ้าหน้าที่ รักษาความปลอดภัย3\",\r\n            \"type\": 1,\r\n            \"day_month\": 31,\r\n            \"day_month_work\": 31,\r\n            \"shuffle\": 0,\r\n            \"shuffle_except\": 0,\r\n            \"shuffle_date_name\": \"\",\r\n            \"shuffle_Absence\": 0,\r\n            \"shuffle_Absence_date\": \"\",\r\n            \"h_not_12\": 0,\r\n            \"h_not_12_date_h\": \"\",\r\n            \"remark\": \"\",\r\n            \"created_at\": \"2019-08-21T11:19:54+07:00\",\r\n            \"updated_at\": \"2019-08-21T11:19:54+07:00\"\r\n        }\r\n    ]\r\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/court_reports/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"court_reports",
+						"1"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "upload",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjb3VydF9pZCI6MTU4LCJleHAiOjE1NjY0NjY3MjMsImlkIjoxMSwib3JpZ19pYXQiOjE1NjY0NjMxMjMsInJvbGVfaWQiOjIsInVzZXJuYW1lIjoidGVzdDQifQ.Excjpn4HYLrhDCb-Voe50tuj49EIfb2Vo3lkNq2iGjQ",
+							"type": "string"
+						}
+					]
+				},
+				"method": "PATCH",
+				"header": [
+					{
+						"key": "Content-Type",
+						"name": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"dd\":\"ccc\",\n\t\"Filename\": \"นวัตกรรม 001.pdf\",\n    \"Header\": {\n        \"Content-Disposition\": [\n            \"form-data; name=\\\"file\\\"; filename=\\\"นวัตกรรม 001.pdf\\\"\"\n        ],\n        \"Content-Type\": [\n            \"application/pdf\"\n        ]\n    },\n    \"Size\": 306265\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/court_reports/1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"court_reports",
+						"1"
 					]
 				}
 			},
