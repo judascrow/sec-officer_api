@@ -389,13 +389,19 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_reports: ~0 rows (approximately)
+-- Dumping data for table sec_officer.court_reports: ~6 rows (approximately)
 DELETE FROM `court_reports`;
 /*!40000 ALTER TABLE `court_reports` DISABLE KEYS */;
 INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `file_path`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, 158, '2019', '06', 30, 25, 4, 3, 3, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', '', 11, '2019-08-22 15:56:41', 0, '2019-08-22 15:56:41');
+	(1, 158, '2562', '06', 30, 25, 4, 3, 3, 'reporter_name', 'reporter_position', 'inspector_name', 'inspector_position', 'W', 'report_1.pdf', 11, '2019-08-22 15:56:41', 11, '2019-08-23 14:54:58'),
+	(2, 158, '2562', '07', 31, 25, 0, 0, 0, 'นายผู้รายงาน', 'ตำแหน่งผู้รายงาน', 'นายผู้ตรวจสอบ', 'ตำแหน่งผู้ตรวจสอบ', 'W', 'report_2.pdf', 11, '2019-08-23 09:50:17', 11, '2019-08-23 13:25:20'),
+	(3, 158, '2562', '05', 31, 25, 0, 0, 0, '', '', '', '', 'S', 'report_3.pdf', 11, '2019-08-23 09:55:28', 11, '2019-08-23 13:19:20'),
+	(4, 158, '2562', '04', 30, 25, 0, 0, 0, '', '', '', '', 'S', 'report_4.pdf', 11, '2019-08-23 09:56:18', 11, '2019-08-23 13:19:14'),
+	(5, 158, '2562', '03', 31, 25, 0, 0, 0, '', '', '', '', 'S', 'report_5.pdf', 11, '2019-08-23 09:56:53', 11, '2019-08-23 13:18:24'),
+	(6, 77, '2562', '07', 31, 25, 0, 0, 0, 'ะพะพำะพำ', 'ะพำะพำะพำะพำะพำะ', 'พำะพำะพำ', 'ะพำะพำะพำะพำะ', 'W', 'report_6.pdf', 7, '2019-08-23 14:31:50', 7, '2019-08-23 14:46:14'),
+	(7, 158, '2562', '08', 31, 25, 0, 0, 0, '', '', '', '', 'W', '', 11, '2019-08-23 14:57:55', 0, '2019-08-23 14:57:55');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -418,14 +424,37 @@ CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_report_sec_people: ~0 rows (approximately)
+-- Dumping data for table sec_officer.court_report_sec_people: ~22 rows (approximately)
 DELETE FROM `court_report_sec_people`;
 /*!40000 ALTER TABLE `court_report_sec_people` DISABLE KEYS */;
 INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_person_name`, `type`, `day_month`, `day_month_work`, `shuffle`, `shuffle_except`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'นายXXX', 1, 30, 28, 2, 1, '-', 1, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-22 15:56:41'),
-	(2, 1, 'นายYYY', 2, 25, 24, 2, 2, '-', 2, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-22 15:56:41');
+	(1, 1, 'นายXXX', 1, 0, 30, 2, 0, '-', 2, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-23 14:54:58'),
+	(2, 1, 'นายYYY', 2, 0, 24, 3, 0, '-', 2, '1970-01-01 00:00:00', 0, '-', '-', '2019-08-22 15:56:41', '2019-08-23 14:54:58'),
+	(3, 2, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 0, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:50:18', '2019-08-23 13:25:20'),
+	(4, 2, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 0, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:50:18', '2019-08-23 13:25:20'),
+	(5, 2, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 2, 0, 27, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:50:18', '2019-08-23 13:25:20'),
+	(6, 3, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:55:28', '2019-08-23 09:55:28'),
+	(7, 3, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:55:28', '2019-08-23 09:55:28'),
+	(8, 3, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:55:28', '2019-08-23 09:55:28'),
+	(9, 4, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 30, 30, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:18', '2019-08-23 09:56:18'),
+	(10, 4, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 30, 30, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:18', '2019-08-23 09:56:18'),
+	(11, 4, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 30, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:18', '2019-08-23 09:56:18'),
+	(12, 5, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:53', '2019-08-23 09:56:53'),
+	(13, 5, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:53', '2019-08-23 09:56:53'),
+	(14, 5, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 09:56:53', '2019-08-23 09:56:53'),
+	(15, 6, 'นายBBB BBB', 1, 0, 0, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(16, 6, 'ggfdgfdgfdgfd', 1, 0, 0, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(17, 6, 'เด้ดเ้ดเ้ดเ้', 1, 0, 0, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(18, 6, '้ดเ้ดเ้ดเ้', 1, 0, 0, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(19, 6, 'ดเ้เด้เด้เด้ดเ', 1, 0, 0, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(20, 6, 'ะพะพำะพำะ', 1, 0, 1, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(21, 6, 'ะพำะพำะพำะพำะ', 1, 0, 1, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(22, 6, 'พำะพำะพำ', 1, 0, 1, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:31:50', '2019-08-23 14:46:14'),
+	(23, 7, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:57:55', '2019-08-23 14:57:55'),
+	(24, 7, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:57:55', '2019-08-23 14:57:55'),
+	(25, 7, 'นายเจ้าหน้าที่ รักษาความปลอดภัย4', 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-23 14:57:55', '2019-08-23 14:57:55');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
@@ -472,7 +501,6 @@ INSERT INTO `roles` (`id`, `name`, `description`, `created_uid`, `created_at`, `
 DROP TABLE IF EXISTS `sec_persons`;
 CREATE TABLE IF NOT EXISTS `sec_persons` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
-  `nid` varchar(13) DEFAULT NULL,
   `full_name` varchar(500) DEFAULT NULL,
   `court_id` int(11) DEFAULT NULL,
   `status` varchar(10) DEFAULT 'A',
@@ -483,13 +511,15 @@ CREATE TABLE IF NOT EXISTS `sec_persons` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.sec_persons: ~3 rows (approximately)
+-- Dumping data for table sec_officer.sec_persons: ~0 rows (approximately)
 DELETE FROM `sec_persons`;
 /*!40000 ALTER TABLE `sec_persons` DISABLE KEYS */;
-INSERT INTO `sec_persons` (`id`, `nid`, `full_name`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, '1234567890123', 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 158, 'A', NULL, NULL, NULL, NULL),
-	(2, '1234567890124', 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 158, 'A', 11, '2019-08-06 11:27:06', 11, '2019-08-15 09:36:01'),
-	(3, '1234567890125', 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 158, 'A', 11, '2019-08-06 13:24:45', 0, '2019-08-06 13:24:45');
+INSERT INTO `sec_persons` (`id`, `full_name`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
+	(1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 77, 'A', 7, '2019-08-23 14:40:23', 0, '2019-08-23 14:40:23'),
+	(2, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 77, 'I', 7, '2019-08-23 14:40:55', 7, '2019-08-23 14:41:01'),
+	(3, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 158, 'A', 11, '2019-08-23 14:47:49', 0, '2019-08-23 14:47:49'),
+	(4, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 158, 'A', 11, '2019-08-23 14:47:52', 0, '2019-08-23 14:47:52'),
+	(5, 'นายเจ้าหน้าที่ รักษาความปลอดภัย4', 158, 'A', 11, '2019-08-23 14:47:56', 0, '2019-08-23 14:47:56');
 /*!40000 ALTER TABLE `sec_persons` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.tags
@@ -540,7 +570,7 @@ INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `r
 	(3, 'admin3', '$2a$12$RrpYfdk7SZvXVveYHTvuX.mn5dD5JfwI9Y1bmLK42wq5fcdi/nDoO', 'cccc', 'cccc', 1, 1, 'I', 1, '2019-07-19 11:21:18', 0, '2019-07-19 11:21:18', '2019-07-25 15:37:46'),
 	(4, 'admin4', '$2a$12$7RNcCOOfS8Emjmv6EbTpfOzsj5GiysHi2A0FCIcbuql8vzj.wZQxm', 'ปริญญา', 'บำรุงชู', 1, 84, 'I', 1, '2019-07-19 11:21:44', 1, '2019-07-19 11:22:48', NULL),
 	(6, 'admin5', '$2a$12$gpqriyO0t/ejY1T3ihvcZev./paJiqrh3.q0bmHKm2aTIkLP1EImu', 'dddd', 'dddd', 1, 84, 'I', 1, '2019-07-25 15:39:10', 12, '2019-08-01 13:37:46', NULL),
-	(7, 'test', '$2a$12$jDSaNJGmc/8nUBWQfR3I.u.BQ6f3APw.kk4duQ5leBrr.ImLGEA4y', 'a1', 'b', 2, 8, 'A', 1, '2019-07-30 11:00:51', 1, '2019-08-01 13:35:15', NULL),
+	(7, 'test', '$2a$12$jDSaNJGmc/8nUBWQfR3I.u.BQ6f3APw.kk4duQ5leBrr.ImLGEA4y', 'นายพอล', 'ป็อกบา', 2, 77, 'A', 1, '2019-07-30 11:00:51', 1, '2019-08-23 14:26:58', NULL),
 	(8, 'test2', '$2a$12$bmdAkHl8Ghet942R3A8ViOmr.mJ8UXjutMndx.L6SNFlCe.dZAljy', 'aa', 'bb', 1, 4, 'A', 1, '2019-07-30 14:21:08', 0, '2019-07-30 14:21:08', NULL),
 	(9, 'test3', '$2a$12$Tm2xeBTnGPCpRTDLoJ4Vq.s5YlHYNAJBAG8427vIatEjvCewS3WKm', 'aaa', 'bbb', 2, 11, 'A', 8, '2019-07-30 15:17:36', 0, '2019-07-30 15:17:36', NULL),
 	(10, 'sdfsdgds', '$2a$12$znuRZTGI/4zu4F0fJ6SutenPGKgaz/E.lCSCItUnTu27ywszaoY86', 'dsfds', 'fdsgds', 2, 13, 'A', 1, '2019-07-31 10:03:55', 0, '2019-07-31 10:03:55', NULL),

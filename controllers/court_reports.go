@@ -237,8 +237,8 @@ func UploadFile(c *gin.Context) {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
 	}
-	//filename := filepath.Base(file.Filename)
-	filePath := "uploads/" + id + ".pdf"
+	filename := "report_"+id + ".pdf"
+	filePath := "uploads/" + filename
 	if err := c.SaveUploadedFile(file, filePath); err != nil {
 		c.JSON(400, gin.H{"message": err.Error()})
 		return
@@ -249,7 +249,7 @@ func UploadFile(c *gin.Context) {
 		updatedUID = int(claims["id"].(float64))
 	}
 
-	db.Model(&courtReport).Where("id = ? AND court_id = ?", id, CourtID).Updates(map[string]interface{}{"file_path": filePath, "status": "S", "updated_uid": updatedUID})
+	db.Model(&courtReport).Where("id = ? AND court_id = ?", id, CourtID).Updates(map[string]interface{}{"file_path": filename, "status": "S", "updated_uid": updatedUID})
 
 	c.JSON(200, courtReport)
 }

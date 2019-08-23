@@ -87,17 +87,12 @@ func CreateSecPerson(c *gin.Context) {
 	c.BindJSON(&secPersons)
 
 	valid := validation.Validation{}
-	valid.Required(&secPersons.Nid, "nid").Message("nid is required")
+
 	valid.Required(&secPersons.FullName, "full_name").Message("full_name is required")
 
 	if !valid.HasErrors() {
 
-		if err := db.Where("nid = ?", &secPersons.Nid).First(&secPersons).Error; err == nil {
-			c.JSON(400, gin.H{
-				"message": "already have this nid",
-			})
-			return
-		}
+
 		if claims["court_id"] != nil {
 			secPersons.CourtID = int(claims["court_id"].(float64))
 		}

@@ -6,6 +6,7 @@ import (
 
 	jwt "github.com/appleboy/gin-jwt/v2"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-contrib/static"
 )
 
 func ApplyRoutes(router *gin.Engine) {
@@ -73,4 +74,6 @@ func ApplyRoutes(router *gin.Engine) {
 		courtReport.DELETE("/:id", controllers.DeleteCourtReport)
 		courtReport.PATCH("/:id", controllers.UploadFile)
 	}
+
+	router.Use(static.Serve("/files", static.LocalFile("uploads/", true)))
 }
