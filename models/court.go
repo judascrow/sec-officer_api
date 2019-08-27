@@ -4,7 +4,7 @@ import (
 	"time"
 )
 
-// Role Models
+// Court Models
 type Court struct {
 	ID         uint       `json:"id" gorm:"primary_key"`
 	CourtCode  string     `json:"court_code" gorm:"type:varchar(10);unique;not null"`

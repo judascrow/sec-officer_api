@@ -10,9 +10,9 @@ import (
 
 // Court Model
 type AdminReport = models.AdminReport
+
 // CourtReportSecPerson Model
 type AdminReportChild = models.AdminReportChild
-
 
 // GetCourts function
 func GetAdminReport(c *gin.Context) {
@@ -23,16 +23,17 @@ func GetAdminReport(c *gin.Context) {
 	year := c.DefaultQuery("year", "")
 	month := c.DefaultQuery("month", "")
 
-	query := db.Table("court_reports a").Select("a.id, a.court_id, b.name AS court_name, a.year, a.month, a.total_shuffle_absence AS shuffle_absence, a.total_shuffle_except AS shuffle_except, a.file_path").Joins("LEFT JOIN courts b ON a.court_id = b.id ")
+	query := db.Table("court_reports a").Select("a.id, a.court_id, b.name AS court_name, a.year, a.month, a.total_shuffle_absence AS shuffle_absence, a.total_shuffle_except AS shuffle_except,a.doc_no , a.file_path").Joins("LEFT JOIN courts b ON a.court_id = b.id ")
 
 	if year != "" {
-		query = query.Where("year = ?",year)
+		query = query.Where("year = ?", year)
 	}
 
 	if month != "" {
-		query = query.Where("month = ?",month)
+		query = query.Where("month = ?", month)
 	}
 
+	query = query.Where("status = ? ", "S")
 
 	if err := query.Order("a.id DESC").Find(&adminReport).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -53,7 +54,7 @@ func GetAdminReport(c *gin.Context) {
 				adminReport[i].Total = adminReportChild.Total
 				adminReport[i].HNot12 = adminReportChild.HNot12
 			}
-			
+
 		}
 
 		c.JSON(200, adminReport)

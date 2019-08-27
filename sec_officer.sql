@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.4.7-MariaDB - mariadb.org binary distribution
+-- Server version:               10.3.12-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             10.1.0.5464
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -29,7 +29,7 @@ CREATE TABLE IF NOT EXISTS `casbin_rule` (
   `v5` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.casbin_rule: ~7 rows (approximately)
+-- Dumping data for table sec_officer.casbin_rule: ~8 rows (approximately)
 DELETE FROM `casbin_rule`;
 /*!40000 ALTER TABLE `casbin_rule` DISABLE KEYS */;
 INSERT INTO `casbin_rule` (`p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`) VALUES
@@ -384,6 +384,7 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `inspector_position` varchar(255) DEFAULT NULL,
   `status` varchar(10) DEFAULT 'W',
   `file_path` varchar(255) DEFAULT NULL,
+  `doc_no` varchar(255) DEFAULT NULL,
   `created_uid` int(11) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_uid` int(11) DEFAULT NULL,
@@ -392,12 +393,12 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
 ) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_reports: ~0 rows (approximately)
+-- Dumping data for table sec_officer.court_reports: ~2 rows (approximately)
 DELETE FROM `court_reports`;
 /*!40000 ALTER TABLE `court_reports` DISABLE KEYS */;
-INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `file_path`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, 78, '2562', '07', 31, 25, 1, 0, 3, 'AAA', 'BBB', 'CCC', 'DDD', 'S', 'report_1.pdf', 2, '2019-08-27 13:08:43', 2, '2019-08-27 13:12:02'),
-	(2, 77, '2562', '07', 31, 25, 1, 0, 0, 'QQQ', 'WWW', 'EEE', 'RRR', 'S', 'report_2.pdf', 3, '2019-08-27 13:13:47', 3, '2019-08-27 13:13:56');
+INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `file_path`, `doc_no`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
+	(1, 78, '2562', '07', 31, 25, 57, 1, 5, 'AAA', 'BBB', 'CCC', 'DDD', 'S', 'report_1.pdf', 'ศย.62/999', 2, '2019-08-27 23:38:00', 2, '2019-08-27 23:45:21'),
+	(2, 77, '2562', '07', 31, 25, 1, 0, 0, 'A', 'B', 'C', 'D', 'S', 'report_2.pdf', 'ศย.62/888', 3, '2019-08-27 23:49:33', 3, '2019-08-27 23:49:51');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -423,15 +424,15 @@ CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_report_sec_people: ~0 rows (approximately)
+-- Dumping data for table sec_officer.court_report_sec_people: ~5 rows (approximately)
 DELETE FROM `court_report_sec_people`;
 /*!40000 ALTER TABLE `court_report_sec_people` DISABLE KEYS */;
 INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_person_name`, `type`, `role`, `day_month`, `day_month_work`, `shuffle`, `shuffle_except`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-27 13:08:43', '2019-08-27 13:08:43'),
-	(2, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 2, 31, 28, 1, 0, '', 2, '', 0, '', '', '2019-08-27 13:08:43', '2019-08-27 13:08:43'),
-	(3, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 2, 2, 25, 24, 0, 0, '', 1, '', 0, '', '', '2019-08-27 13:08:43', '2019-08-27 13:08:43'),
-	(4, 2, 'นายรักษาความปลอดภัย 1', 1, 1, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-27 13:13:47', '2019-08-27 13:13:47'),
-	(5, 2, 'นายรักษาความปลอดภัย 2', 2, 2, 25, 24, 1, 0, '', 0, '', 0, '', '', '2019-08-27 13:13:47', '2019-08-27 13:13:47');
+	(1, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 1, 31, 25, 3, 1, '', 3, '', 4, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
+	(2, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 2, 31, 31, 30, 0, '', 1, '', 0, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
+	(3, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 2, 2, 25, 25, 24, 0, '', 1, '', 0, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
+	(4, 2, 'นายรักษาความปลอดภัย 1', 1, 2, 31, 30, 1, 0, '', 0, '', 0, '', '', '2019-08-27 23:49:33', '2019-08-27 23:49:33'),
+	(5, 2, 'นายรักษาความปลอดภัย 2', 2, 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-27 23:49:33', '2019-08-27 23:49:33');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
@@ -488,7 +489,7 @@ CREATE TABLE IF NOT EXISTS `sec_persons` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.sec_persons: ~0 rows (approximately)
+-- Dumping data for table sec_officer.sec_persons: ~5 rows (approximately)
 DELETE FROM `sec_persons`;
 /*!40000 ALTER TABLE `sec_persons` DISABLE KEYS */;
 INSERT INTO `sec_persons` (`id`, `full_name`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
@@ -538,7 +539,7 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.users: ~1 rows (approximately)
+-- Dumping data for table sec_officer.users: ~3 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `role_id`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`, `deleted_at`) VALUES
