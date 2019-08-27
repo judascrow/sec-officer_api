@@ -75,5 +75,11 @@ func ApplyRoutes(router *gin.Engine) {
 		courtReport.PATCH("/:id", controllers.UploadFile)
 	}
 
+	adminReport := apiv1.Group("/admin_reports")
+	adminReport.Use(authMiddleware.MiddlewareFunc())
+	{
+		adminReport.GET("/", controllers.GetAdminReport)
+	}
+
 	router.Use(static.Serve("/files", static.LocalFile("uploads/", true)))
 }

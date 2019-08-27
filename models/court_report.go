@@ -36,6 +36,7 @@ type CourtReportSecPerson struct {
 	// SecPersons         SecPersons `json:"sec_persons"`
 	SecPersonName      string `json:"sec_person_name"`
 	Type               int        `json:"type" gorm:"type:int"`
+	Role                int                  `json:"role" gorm:"type:int;DEFAULT:2"`
 	DayMonth           int        `json:"day_month" gorm:"type:int"`
 	DayMonthWork       int        `json:"day_month_work" gorm:"type:int"`
 	Shuffle            int        `json:"shuffle" gorm:"type:int"`
