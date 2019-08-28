@@ -218,6 +218,20 @@ func UpdateCourtReport(c *gin.Context) {
 
 	courtReport.Status = "W"
 
+	length := len(courtReport.CourtReportSecPersons)
+
+	for i := 0; i < length; i++ {
+		if courtReport.CourtReportSecPersons[i].Type == 1 {
+			courtReport.CourtReportSecPersons[i].DayMonth = courtReport.Work7Day
+		} else {
+			courtReport.CourtReportSecPersons[i].DayMonth = courtReport.Work6Day
+		}
+
+		courtReport.TotalShuffle += courtReport.CourtReportSecPersons[i].Shuffle
+		courtReport.TotalShuffleExcept += courtReport.CourtReportSecPersons[i].ShuffleExcept
+		courtReport.TotalShuffleAbsence += courtReport.CourtReportSecPersons[i].ShuffleAbsence
+	}
+
 	if err := db.Save(&courtReport).Error; err != nil {
 		c.JSON(404, gin.H{
 			"message": err.Error(),
