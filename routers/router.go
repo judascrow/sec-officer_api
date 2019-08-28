@@ -79,6 +79,8 @@ func ApplyRoutes(router *gin.Engine) {
 	adminReport.Use(authMiddleware.MiddlewareFunc())
 	{
 		adminReport.GET("/", controllers.GetAdminReport)
+		adminReport.PATCH("/accept/:id", controllers.AcceptReport)
+		adminReport.PATCH("/unaccept/:id", controllers.UnAcceptReport)
 	}
 
 	router.Use(static.Serve("/files", static.LocalFile("uploads/", true)))

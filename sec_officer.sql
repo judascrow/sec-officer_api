@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.3.12-MariaDB - mariadb.org binary distribution
+-- Server version:               10.4.7-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.1.0.5464
+-- HeidiSQL Version:             10.2.0.5599
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -40,7 +40,10 @@ INSERT INTO `casbin_rule` (`p_type`, `v0`, `v1`, `v2`, `v3`, `v4`, `v5`) VALUES
 	('p', '1', '/api/v1/sec_persons/*', '	(GET)|(POST)|(PUT)|(DELETE)', NULL, NULL, NULL),
 	('p', '2', '/api/v1/court_reports/*', '	(GET)|(POST)|(PUT)|(DELETE)|(PATCH)', NULL, NULL, NULL),
 	('p', '2', '/api/v1/sec_persons/*', '	(GET)|(POST)|(PUT)|(DELETE)', NULL, NULL, NULL),
-	('p', '1', '/api/v1/admin_reports/*', 'GET', NULL, NULL, NULL);
+	('p', '1', '/api/v1/admin_reports/*', 'GET', NULL, NULL, NULL),
+	('p', '1', '/api/v1/court_reports/*', '	(GET)|(PUT)', NULL, NULL, NULL),
+	('p', '1', '/api/v1/admin_reports/accept/*', 'PATCH', NULL, NULL, NULL),
+	('p', '1', '/api/v1/admin_reports/unaccept/*', 'PATCH', NULL, NULL, NULL);
 /*!40000 ALTER TABLE `casbin_rule` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.courts
@@ -391,14 +394,15 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_reports: ~2 rows (approximately)
+-- Dumping data for table sec_officer.court_reports: ~3 rows (approximately)
 DELETE FROM `court_reports`;
 /*!40000 ALTER TABLE `court_reports` DISABLE KEYS */;
 INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `work6_day`, `total_shuffle`, `total_shuffle_except`, `total_shuffle_absence`, `reporter_name`, `reporter_position`, `inspector_name`, `inspector_position`, `status`, `file_path`, `doc_no`, `created_uid`, `created_at`, `updated_uid`, `updated_at`) VALUES
-	(1, 78, '2562', '07', 31, 25, 57, 1, 5, 'AAA', 'BBB', 'CCC', 'DDD', 'S', 'report_1.pdf', 'ศย.62/999', 2, '2019-08-27 23:38:00', 2, '2019-08-27 23:45:21'),
-	(2, 77, '2562', '07', 31, 25, 1, 0, 0, 'A', 'B', 'C', 'D', 'S', 'report_2.pdf', 'ศย.62/888', 3, '2019-08-27 23:49:33', 3, '2019-08-27 23:49:51');
+	(1, 78, '2562', '07', 31, 25, 57, 1, 5, 'AAA', 'BBB', 'CCC', 'DDD', 'A', 'report_1.pdf', '4646565', 2, '2019-08-27 23:38:00', 1, '2019-08-28 16:34:12'),
+	(2, 77, '2562', '07', 31, 25, 1, 0, 0, 'A', 'B', 'C', 'D', 'A', 'report_2.pdf', 'ศย.62/888', 3, '2019-08-27 23:49:33', 1, '2019-08-28 16:18:55'),
+	(3, 77, '2562', '06', 30, 25, 0, 0, 0, '', '', '', '', 'S', 'report_3.pdf', '121654', 3, '2019-08-28 15:07:49', 3, '2019-08-28 15:31:54');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -422,17 +426,19 @@ CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.court_report_sec_people: ~5 rows (approximately)
+-- Dumping data for table sec_officer.court_report_sec_people: ~7 rows (approximately)
 DELETE FROM `court_report_sec_people`;
 /*!40000 ALTER TABLE `court_report_sec_people` DISABLE KEYS */;
 INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_person_name`, `type`, `role`, `day_month`, `day_month_work`, `shuffle`, `shuffle_except`, `shuffle_date_name`, `shuffle_absence`, `shuffle_absence_date`, `h_not12`, `h_not12_date_h`, `remark`, `created_at`, `updated_at`) VALUES
-	(1, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 1, 31, 25, 3, 1, '', 3, '', 4, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
-	(2, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 2, 31, 31, 30, 0, '', 1, '', 0, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
-	(3, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 2, 2, 25, 25, 24, 0, '', 1, '', 0, '', '', '2019-08-27 23:38:00', '2019-08-27 23:38:00'),
+	(1, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 1, 0, 31, 3, 0, '', 3, '', 4, '', 'xxxxx', '2019-08-27 23:38:00', '2019-08-28 16:22:34'),
+	(2, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 2, 0, 31, 30, 0, '', 1, '', 0, '', 'xx', '2019-08-27 23:38:00', '2019-08-28 16:22:34'),
+	(3, 1, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 2, 0, 31, 23, 0, '', 2, '', 0, '', '', '2019-08-27 23:38:00', '2019-08-28 16:22:34'),
 	(4, 2, 'นายรักษาความปลอดภัย 1', 1, 2, 31, 30, 1, 0, '', 0, '', 0, '', '', '2019-08-27 23:49:33', '2019-08-27 23:49:33'),
-	(5, 2, 'นายรักษาความปลอดภัย 2', 2, 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-27 23:49:33', '2019-08-27 23:49:33');
+	(5, 2, 'นายรักษาความปลอดภัย 2', 2, 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-27 23:49:33', '2019-08-27 23:49:33'),
+	(6, 3, 'นายรักษาความปลอดภัย 1', 2, 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-28 15:07:49', '2019-08-28 15:07:49'),
+	(7, 3, 'นายรักษาความปลอดภัย 2', 2, 2, 25, 25, 0, 0, '', 0, '', 0, '', '', '2019-08-28 15:07:49', '2019-08-28 15:07:49');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
@@ -537,15 +543,16 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.users: ~3 rows (approximately)
+-- Dumping data for table sec_officer.users: ~4 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `role_id`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`, `deleted_at`) VALUES
 	(1, 'admin', '$2a$12$2FGcjZvRdh/MHOZKl6CBq.HbFGpqm3w2qMpMlJBL1TX7m1c28GMdu', 'aaaa', 'aaaa', 1, 11, 'A', 0, '2019-07-11 11:12:25', 0, '2019-07-11 11:12:25', NULL),
 	(2, 'user1', '$2a$12$7arvcf6esVSDXyVLj8lX1uDfKuYZL81YFKNo9UPM7va/2LIqJM/j2', 'user1', 'user1', 2, 78, 'A', 1, '2019-08-27 13:04:45', 0, '2019-08-27 13:04:45', NULL),
-	(3, 'user2', '$2a$12$3Q/7D69npabrLf69reArNOAFaWQY0PIWy1VoYCms8cgX9aXGYfRmi', 'user2', 'user2', 2, 77, 'A', 1, '2019-08-27 13:05:30', 0, '2019-08-27 13:05:30', NULL);
+	(3, 'user2', '$2a$12$3Q/7D69npabrLf69reArNOAFaWQY0PIWy1VoYCms8cgX9aXGYfRmi', 'user2', 'user2', 2, 77, 'A', 1, '2019-08-27 13:05:30', 0, '2019-08-27 13:05:30', NULL),
+	(4, 'user3', '$2a$12$/lHkFIZ/YEK8ScBkG.DRN.ACCyQU8WlvA0cc/ZCuwX4C1R1TCVlfy', 'CCC', 'CCC', 2, 96, 'A', 1, '2019-08-28 14:43:04', 0, '2019-08-28 14:43:04', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

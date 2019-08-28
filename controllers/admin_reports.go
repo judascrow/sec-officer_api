@@ -33,7 +33,7 @@ func GetAdminReport(c *gin.Context) {
 		query = query.Where("month = ?", month)
 	}
 
-	query = query.Where("status = ? ", "S")
+	query = query.Where("status = ? ", "A")
 
 	if err := query.Order("a.id DESC").Find(&adminReport).Error; err != nil {
 		c.AbortWithStatus(404)

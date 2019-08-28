@@ -30,15 +30,41 @@ func GetCourtReports(c *gin.Context) {
 	var data DataCourtReport
 	var count int64
 
+	
+	status := c.DefaultQuery("status", "")
+	year := c.DefaultQuery("year", "")
+	month := c.DefaultQuery("month", "")
+
 	claims := jwt.ExtractClaims(c)
 	userCourtID := 0
 	if claims["court_id"] != nil {
 		userCourtID = int(claims["court_id"].(float64))
 	}
 
-	query := db.Set("gorm:auto_preload", true).Where("court_id = ?", userCourtID).Order("year desc, month desc")
+	query := db.Set("gorm:auto_preload", true)
 
-	if err := query.Find(&courtReports).Error; err != nil {
+	if claims["role_id"] != nil  {
+		if int(claims["role_id"].(float64)) > 1 {
+			query = query.Where("court_id = ?", userCourtID)
+			if status != "" && status != "Z" {
+				query = query.Where("status = ?", status)
+			}
+		
+			if year != "" {
+				query = query.Where("year = ?", year)
+			}
+		
+			if month != "" {
+				query = query.Where("month = ?", month)
+			}
+		} else {
+			query = query.Select("users.court_id ,court_reports.*").Joins("RIGHT JOIN users ON users.court_id = court_reports.court_id AND court_reports.year = ? AND court_reports.month = ? ",year,month).Where("users.role_id != ?", 1)
+		}
+	}
+
+
+
+	if err := query.Order("year desc, month desc").Find(&courtReports).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
@@ -46,6 +72,16 @@ func GetCourtReports(c *gin.Context) {
 		query.Find(&courtReports).Count(&count)
 
 		data.Total = count
+		if int(claims["role_id"].(float64)) == 1 {
+			length := len(courtReports)
+
+			for i := 0; i < length; i++ {
+				if courtReports[i].Status == "" {
+					courtReports[i].Status = "W"
+				}
+				
+			}			
+		}		
 		data.Data = courtReports
 
 		c.JSON(200, data)
@@ -252,6 +288,40 @@ func UploadFile(c *gin.Context) {
 	}
 
 	db.Model(&courtReport).Where("id = ? AND court_id = ?", id, CourtID).Updates(map[string]interface{}{"file_path": filename, "doc_no": d.DocNo, "status": "S", "updated_uid": updatedUID})
+
+	c.JSON(200, courtReport)
+}
+
+// AcceptReport Function
+func AcceptReport(c *gin.Context) {
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	claims := jwt.ExtractClaims(c)
+	var courtReport CourtReport
+
+	updatedUID := 0
+	if claims["id"] != nil {
+		updatedUID = int(claims["id"].(float64))
+	}
+
+	db.Model(&courtReport).Where("id = ?  AND status = ? ", id, "S").Updates(map[string]interface{}{"status": "A", "updated_uid": updatedUID})
+
+	c.JSON(200, courtReport)
+}
+
+// AcceptReport Function
+func UnAcceptReport(c *gin.Context) {
+	db = include.GetDB()
+	id := c.Params.ByName("id")
+	claims := jwt.ExtractClaims(c)
+	var courtReport CourtReport
+
+	updatedUID := 0
+	if claims["id"] != nil {
+		updatedUID = int(claims["id"].(float64))
+	}
+
+	db.Model(&courtReport).Where("id = ?  AND status = ? ", id, "A").Updates(map[string]interface{}{"status": "S", "updated_uid": updatedUID})
 
 	c.JSON(200, courtReport)
 }
