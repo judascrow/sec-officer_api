@@ -23,7 +23,7 @@ func GetAdminReport(c *gin.Context) {
 	year := c.DefaultQuery("year", "")
 	month := c.DefaultQuery("month", "")
 
-	query := db.Table("court_reports a").Select("a.id, a.court_id, b.name AS court_name, a.year, a.month, a.total_shuffle_absence AS shuffle_absence, a.total_shuffle_except AS shuffle_except,a.doc_no , a.file_path").Joins("LEFT JOIN courts b ON a.court_id = b.id ")
+	query := db.Table("court_reports a").Select("a.id, a.court_id, b.name AS court_name, b.department_name , a.year, a.month, a.total_shuffle_absence AS shuffle_absence, a.total_shuffle_except AS shuffle_except,a.doc_no , a.file_path").Joins("LEFT JOIN courts b ON a.court_id = b.id ")
 
 	if year != "" {
 		query = query.Where("year = ?", year)

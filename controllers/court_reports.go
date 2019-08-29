@@ -41,7 +41,7 @@ func GetCourtReports(c *gin.Context) {
 		userCourtID = int(claims["court_id"].(float64))
 	}
 
-	query := db.Set("gorm:auto_preload", true)
+	query := db.Set("gorm:auto_preload", true).Order("year desc, month desc")
 
 	if claims["role_id"] != nil  {
 		if int(claims["role_id"].(float64)) > 1 {
@@ -64,7 +64,7 @@ func GetCourtReports(c *gin.Context) {
 
 
 
-	if err := query.Order("year desc, month desc").Find(&courtReports).Error; err != nil {
+	if err := query.Find(&courtReports).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {

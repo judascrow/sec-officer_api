@@ -5,6 +5,7 @@ type AdminReport struct {
 	ID               uint   `json:"id"`
 	CourtID          int    `json:"court_id"`
 	CourtName        string `json:"court_name"`
+	DepartmentName   string `json:"department_name"`
 	Year             int    `json:"year"`
 	Month            int    `json:"month"`
 	Type7DayBoss     int    `json:"type_7day_boss"`

@@ -146,13 +146,26 @@ func checkHash(password string, hash string) bool {
 	return err == nil
 }
 
+// Court Model
+type Court = models.Court
+
 func helloHandler(c *gin.Context) {
 	claims := jwt.ExtractClaims(c)
 	user, _ := c.Get(identityKey)
+
+	db = include.GetDB()
+	var court Court
+
+	courtName := ""
+	if err := db.Where("id = ?", user.(*User).CourtID).First(&court).Error; err == nil {
+		courtName = court.Name
+	} 
+
 	c.JSON(200, gin.H{
 		"userID":   claims["id"],
 		"username": user.(*User).Username,
 		"roleID":   user.(*User).RoleID,
 		"CourtID":  user.(*User).CourtID,
+		"courtName":  courtName,
 	})
 }
