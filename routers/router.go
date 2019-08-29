@@ -5,8 +5,8 @@ import (
 	"sec-officer_api/controllers"
 
 	jwt "github.com/appleboy/gin-jwt/v2"
-	"github.com/gin-gonic/gin"
 	"github.com/gin-contrib/static"
+	"github.com/gin-gonic/gin"
 )
 
 func ApplyRoutes(router *gin.Engine) {
@@ -84,4 +84,14 @@ func ApplyRoutes(router *gin.Engine) {
 	}
 
 	router.Use(static.Serve("/files", static.LocalFile("uploads/", true)))
+
+	dashboard := apiv1.Group("/dashboard")
+	{
+		dashboard.GET("/total_court", controllers.GetTotalCourt)
+		dashboard.GET("/total_court_report", controllers.GetTotalCourtReport)
+		dashboard.GET("/total_sec", controllers.GetTotalSec)
+		dashboard.GET("/total_sec_work", controllers.GetTotalWork)
+		dashboard.GET("/bar", controllers.GetArrayDepart)
+		dashboard.GET("/donut", controllers.GetTotalWork2)
+	}
 }

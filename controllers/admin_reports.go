@@ -8,13 +8,13 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Court Model
+// AdminReport Model
 type AdminReport = models.AdminReport
 
-// CourtReportSecPerson Model
+// AdminReportChild Model
 type AdminReportChild = models.AdminReportChild
 
-// GetCourts function
+// GetAdminReport function
 func GetAdminReport(c *gin.Context) {
 	db = include.GetDB()
 	var adminReport []AdminReport

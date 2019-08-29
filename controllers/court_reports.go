@@ -30,7 +30,6 @@ func GetCourtReports(c *gin.Context) {
 	var data DataCourtReport
 	var count int64
 
-	
 	status := c.DefaultQuery("status", "")
 	year := c.DefaultQuery("year", "")
 	month := c.DefaultQuery("month", "")
@@ -43,26 +42,24 @@ func GetCourtReports(c *gin.Context) {
 
 	query := db.Set("gorm:auto_preload", true).Order("year desc, month desc")
 
-	if claims["role_id"] != nil  {
+	if claims["role_id"] != nil {
 		if int(claims["role_id"].(float64)) > 1 {
 			query = query.Where("court_id = ?", userCourtID)
 			if status != "" && status != "Z" {
 				query = query.Where("status = ?", status)
 			}
-		
+
 			if year != "" {
 				query = query.Where("year = ?", year)
 			}
-		
+
 			if month != "" {
 				query = query.Where("month = ?", month)
 			}
 		} else {
-			query = query.Select("users.court_id ,court_reports.*").Joins("RIGHT JOIN users ON users.court_id = court_reports.court_id AND court_reports.year = ? AND court_reports.month = ? ",year,month).Where("users.role_id != ?", 1)
+			query = query.Select("users.court_id ,court_reports.*").Joins("RIGHT JOIN users ON users.court_id = court_reports.court_id AND court_reports.year = ? AND court_reports.month = ? ", year, month).Where("users.role_id != ?", 1)
 		}
 	}
-
-
 
 	if err := query.Find(&courtReports).Error; err != nil {
 		c.AbortWithStatus(404)
@@ -79,9 +76,9 @@ func GetCourtReports(c *gin.Context) {
 				if courtReports[i].Status == "" {
 					courtReports[i].Status = "W"
 				}
-				
-			}			
-		}		
+
+			}
+		}
 		data.Data = courtReports
 
 		c.JSON(200, data)
@@ -323,7 +320,7 @@ func AcceptReport(c *gin.Context) {
 	c.JSON(200, courtReport)
 }
 
-// AcceptReport Function
+// UnAcceptReport Function
 func UnAcceptReport(c *gin.Context) {
 	db = include.GetDB()
 	id := c.Params.ByName("id")

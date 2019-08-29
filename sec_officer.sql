@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Server version:               10.4.7-MariaDB - mariadb.org binary distribution
+-- Server version:               10.3.12-MariaDB - mariadb.org binary distribution
 -- Server OS:                    Win64
--- HeidiSQL Version:             10.2.0.5599
+-- HeidiSQL Version:             10.1.0.5464
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -400,7 +400,7 @@ CREATE TABLE IF NOT EXISTS `court_reports` (
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `idx_1` (`court_id`,`year`,`month`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table sec_officer.court_reports: ~5 rows (approximately)
 DELETE FROM `court_reports`;
@@ -410,7 +410,9 @@ INSERT INTO `court_reports` (`id`, `court_id`, `year`, `month`, `work7_day`, `wo
 	(3, 77, '2562', '06', 30, 25, 0, 0, 0, '', '', '', '', 'S', 'report_3.pdf', '121654', 3, '2019-08-28 15:07:49', 3, '2019-08-28 15:31:54'),
 	(6, 96, '2562', '07', 31, 25, 7, 3, 7, 'นายรายงาน', 'ผู้รายงาน', 'นายตรวจสอบ', 'ผู้ตรวจสอบ', 'A', 'report_6.pdf', 'ศย 011/001', 4, '2019-08-29 09:46:22', 1, '2019-08-29 09:58:36'),
 	(7, 78, '2562', '07', 31, 25, 0, 0, 0, 'csfdg', 'gfdhfdh', 'fdjfdjgf', 'gfjgfj', 'A', 'report_7.pdf', '1234', 2, '2019-08-29 12:03:18', 1, '2019-08-29 12:03:45'),
-	(8, 78, '2562', '06', 30, 25, 10, 3, 2, 'dgdg', 'fdhfdh', 'fdj', 'fdjgfj', 'S', 'report_8.pdf', 'ศย 1324/62', 2, '2019-08-29 14:02:46', 2, '2019-08-29 14:17:12');
+	(8, 78, '2562', '06', 30, 25, 10, 3, 2, 'dgdg', 'fdhfdh', 'fdj', 'fdjgfj', 'S', 'report_8.pdf', 'ศย 1324/62', 2, '2019-08-29 14:02:46', 2, '2019-08-29 14:17:12'),
+	(9, 124, '2562', '07', 31, 25, 0, 0, 0, 'AA', 'BB', 'CC', 'DD', 'A', 'report_9.pdf', 'xcxvdbd', 6, '2019-08-29 21:56:40', 1, '2019-08-29 21:58:45'),
+	(10, 169, '2562', '07', 31, 25, 1, 0, 28, 'dsgds', 'gdhdsh', 'fdhfj', 'gfjgfkh', 'A', 'report_10.pdf', 'ศย.1334', 7, '2019-08-30 02:43:01', 1, '2019-08-30 02:43:32');
 /*!40000 ALTER TABLE `court_reports` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.court_report_sec_people
@@ -434,7 +436,7 @@ CREATE TABLE IF NOT EXISTS `court_report_sec_people` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=24 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table sec_officer.court_report_sec_people: ~16 rows (approximately)
 DELETE FROM `court_report_sec_people`;
@@ -455,7 +457,9 @@ INSERT INTO `court_report_sec_people` (`id`, `court_report_id`, `sec_person_name
 	(20, 7, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 2, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-29 12:03:18', '2019-08-29 12:03:18'),
 	(21, 8, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 1, 2, 30, 15, 5, 3, '', 2, '', 0, '', '', '2019-08-29 14:02:46', '2019-08-29 14:07:43'),
 	(22, 8, 'นายเจ้าหน้าที่ รักษาความปลอดภัย2', 1, 2, 30, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-29 14:02:46', '2019-08-29 14:07:43'),
-	(23, 8, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 2, 30, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-29 14:02:46', '2019-08-29 14:07:43');
+	(23, 8, 'นายเจ้าหน้าที่ รักษาความปลอดภัย3', 1, 2, 30, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-29 14:02:46', '2019-08-29 14:07:43'),
+	(24, 9, 'นายAAA', 1, 2, 31, 31, 0, 0, '', 0, '', 0, '', '', '2019-08-29 21:56:40', '2019-08-29 21:56:40'),
+	(25, 10, 'นายAAA', 1, 1, 31, 2, 1, 0, '', 28, '', 0, '', '', '2019-08-30 02:43:01', '2019-08-30 02:43:01');
 /*!40000 ALTER TABLE `court_report_sec_people` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.posts
@@ -510,7 +514,7 @@ CREATE TABLE IF NOT EXISTS `sec_persons` (
   `updated_uid` int(11) DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=16 DEFAULT CHARSET=utf8;
 
 -- Dumping data for table sec_officer.sec_persons: ~13 rows (approximately)
 DELETE FROM `sec_persons`;
@@ -528,7 +532,9 @@ INSERT INTO `sec_persons` (`id`, `full_name`, `court_id`, `status`, `created_uid
 	(10, 'นายรปภ4', 96, 'A', 4, '2019-08-29 09:43:17', 0, '2019-08-29 09:43:17'),
 	(11, 'นายรปภ5', 96, 'A', 4, '2019-08-29 09:43:22', 0, '2019-08-29 09:43:22'),
 	(12, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 77, 'A', 3, '2019-08-29 14:11:30', 0, '2019-08-29 14:11:30'),
-	(13, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 77, 'A', 3, '2019-08-29 14:11:53', 0, '2019-08-29 14:11:53');
+	(13, 'นายเจ้าหน้าที่ รักษาความปลอดภัย', 77, 'A', 3, '2019-08-29 14:11:53', 0, '2019-08-29 14:11:53'),
+	(14, 'นายAAA', 124, 'A', 6, '2019-08-29 21:55:08', 0, '2019-08-29 21:55:08'),
+	(15, 'นายAAA', 169, 'A', 7, '2019-08-30 02:42:24', 0, '2019-08-30 02:42:24');
 /*!40000 ALTER TABLE `sec_persons` ENABLE KEYS */;
 
 -- Dumping structure for table sec_officer.tags
@@ -568,17 +574,19 @@ CREATE TABLE IF NOT EXISTS `users` (
   `deleted_at` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
 
--- Dumping data for table sec_officer.users: ~5 rows (approximately)
+-- Dumping data for table sec_officer.users: ~6 rows (approximately)
 DELETE FROM `users`;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 INSERT INTO `users` (`id`, `username`, `password`, `first_name`, `last_name`, `role_id`, `court_id`, `status`, `created_uid`, `created_at`, `updated_uid`, `updated_at`, `deleted_at`) VALUES
-	(1, 'admin', '$2a$12$2FGcjZvRdh/MHOZKl6CBq.HbFGpqm3w2qMpMlJBL1TX7m1c28GMdu', 'aaaa', 'aaaa', 1, 11, 'A', 0, '2019-07-11 11:12:25', 0, '2019-07-11 11:12:25', NULL),
+	(1, 'admin', '$2a$12$2FGcjZvRdh/MHOZKl6CBq.HbFGpqm3w2qMpMlJBL1TX7m1c28GMdu', 'aaaa', 'aaaa', 1, 11, 'A', 0, '2019-07-11 11:12:25', 1, '2019-08-30 02:40:26', NULL),
 	(2, 'user1', '$2a$12$/OQx7iFJGHTbUHDaJ18yW.k75KnFQPV9YE/7Z9RGyjraphdtTeFwW', 'user1', 'user1', 2, 78, 'A', 1, '2019-08-27 13:04:45', 1, '2019-08-28 19:04:18', NULL),
 	(3, 'user2', '$2a$12$3Q/7D69npabrLf69reArNOAFaWQY0PIWy1VoYCms8cgX9aXGYfRmi', 'user2', 'user2', 2, 77, 'A', 1, '2019-08-27 13:05:30', 0, '2019-08-27 13:05:30', NULL),
 	(4, 'user3', '$2a$12$/lHkFIZ/YEK8ScBkG.DRN.ACCyQU8WlvA0cc/ZCuwX4C1R1TCVlfy', 'CCC', 'CCC', 2, 96, 'A', 1, '2019-08-28 14:43:04', 0, '2019-08-28 14:43:04', NULL),
-	(5, 'admin2', '$2a$12$2uaxHDzzi6c8oPAWkUQHreMnQxN7iFrDAoNUDUq7wOgkOB5/KG.UC', 'admin2', 'admin', 1, 11, 'A', 1, '2019-08-28 18:27:12', 0, '2019-08-28 18:27:12', NULL);
+	(5, 'admin2', '$2a$12$2uaxHDzzi6c8oPAWkUQHreMnQxN7iFrDAoNUDUq7wOgkOB5/KG.UC', 'admin2', 'admin', 1, 11, 'A', 1, '2019-08-28 18:27:12', 0, '2019-08-28 18:27:12', NULL),
+	(6, 'user4', '$2a$12$AfQt9rQRO4ANwEEv70XNfOv.7olfaS.jRt/PK2WekoxdLA7/g9xYe', 'AAAA', 'BBBB', 2, 124, 'A', 1, '2019-08-29 21:53:09', 1, '2019-08-29 21:54:39', NULL),
+	(7, 'user5', '$2a$12$foMBKNxaEsDd2Pdr2fUIPu2GfuvhRgnVIbGQIBTRuFBU0jHnYDr0e', 'XXXX', 'VVVV', 2, 169, 'A', 1, '2019-08-30 02:42:05', 0, '2019-08-30 02:42:05', NULL);
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
