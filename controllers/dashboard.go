@@ -149,17 +149,17 @@ type TotalSecWork2 struct {
 
 // Donut1 models
 type Donut1 struct {
-	Value float64 `json:"value"`
+	Value float64 `json:"value" sql:"DECIMAL(10,2)"`
 }
 
 // Donut2 models
 type Donut2 struct {
-	Value float64 `json:"value"`
+	Value float64 `json:"value" sql:"DECIMAL(10,2)"`
 }
 
 // Donut3 models
 type Donut3 struct {
-	Value float64 `json:"value"`
+	Value float64 `json:"value" sql:"DECIMAL(10,2)"`
 }
 
 // GetTotalWork2 function
@@ -176,21 +176,21 @@ func GetTotalWork2(c *gin.Context) {
 	year := string(d[0:4])
 	month := string(d[5:])
 
-	if err := db.Table("court_report_sec_people").Select("cast((AVG(day_month_work)/AVG(day_month)) * 100 as decimal(10,2)) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut1).Error; err != nil {
+	if err := db.Table("court_report_sec_people").Select("ROUND((AVG(day_month_work)/AVG(day_month)) * 100 ,2) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut1).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
 		totalSecWork2.Donut1 = donut1
 	}
 
-	if err := db.Table("court_report_sec_people").Select("cast((AVG(shuffle)/AVG(day_month)) * 100 as decimal(10,2)) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut2).Error; err != nil {
+	if err := db.Table("court_report_sec_people").Select("ROUND((AVG(shuffle)/AVG(day_month)) * 100 ,2) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut2).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
 		totalSecWork2.Donut2 = donut2
 	}
 
-	if err := db.Table("court_report_sec_people").Select("cast((AVG(shuffle_absence)/AVG(day_month)) * 100 as decimal(10,2)) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut3).Error; err != nil {
+	if err := db.Table("court_report_sec_people").Select("ROUND((AVG(shuffle_absence)/AVG(day_month)) * 100 ,2) AS value").Where("court_report_id IN (?)", db.Table("court_reports").Select("id").Where("year = ? AND month =  ? AND status =  ? ", year, month, "A").QueryExpr()).Find(&donut3).Error; err != nil {
 		c.AbortWithStatus(404)
 		fmt.Println(err)
 	} else {
